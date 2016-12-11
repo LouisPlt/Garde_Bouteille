@@ -1,0 +1,64 @@
+doctype html
+html
+	head
+		title
+		meta(charset='utf-8')
+		link(rel='stylesheet', href='bootstrap/css/bootstrap.min.css')
+		link(rel='stylesheet', href='stylesheets/style.css')
+		script(type='text/javascript').
+			function validateForm() {
+				var login = document.forms["connectionForm"]["login"].value;
+				var password = document.forms["connectionForm"]["password"].value;
+
+				if (password == null || password == "") {
+					return false;
+				}
+				if (login == null || login1 == "") {
+					return false;
+				}
+				console.log("loginloginlogin :" + login);
+			}
+			
+	body
+		nav.navbar.navbar-default.navbar-fixed-top
+			.container-fluid
+				.navbar-header
+					a.navbar-brand(href='#')
+						img(alt='Brand', src='images/logo.png')
+					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+				#bs-example-navbar-collapse-1.collapse.navbar-collapse
+					
+					input.btn.btn-default.navbar-right(type='button', value='Connexion', onclick="location.href='/connexion'", style='margin-left: 20px;margin-right: 20px;margin-top: 8px')
+					input.btn.btn-default.navbar-right(type='button', value="S'inscrire", onclick="location.href='/inscription'", style='margin-left: 20px;margin-top: 8px')
+
+					ul.nav.navbar-nav.navbar-right
+						li.active
+							a.nav-marging-item(href='/') Accueil
+						li
+							a.nav-marging-item(href='/') Contact
+
+		.row(style='margin-top: 100px')
+			form.col-lg-4.col-lg-offset-4(method='post', name='connectionForm', onkeypress="return event.keyCode != 13;", onsubmit="return validateForm()")
+				.form-group
+					label Login
+					if login != undefined
+						input.form-control(type='text', name='login', id='login', value='#{login}')
+					else if compte == "inexistant"
+							input.form-control(type='text', placeholder='Login', name='login', id='login')
+							p Compte inexistant
+						else 
+							input.form-control(type='text', placeholder='Login', name='login', id='login')
+				.form-group
+					label Password
+					input.form-control(type='password', placeholder='Password', name='password', id='password')
+					if login != undefined
+						p Mot de passe eronné
+				input.btn.btn-default(type='submit', value='Connexion')
+
+				input(type='hidden', name='previousLogin', value='#{login}')
+
+
