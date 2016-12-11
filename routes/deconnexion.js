@@ -6,9 +6,14 @@ var sess;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	sess = req.session;
-	console.log("sess.login : " + sess.login);
-  res.render('', { sess: sess });
+	req.session.destroy(function(err) {
+	if(err) {
+	  console.log(err);
+	} else {
+	console.log("Disconnected");
+	  res.redirect('/');
+	}
+	});
 });
 
 module.exports = router;
