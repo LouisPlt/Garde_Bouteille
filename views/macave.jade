@@ -3,10 +3,10 @@ html
 	head
 		title
 		meta(charset='utf-8')
-		link(rel='stylesheet', href='../bootstrap/css/bootstrap.min.css')
-		link(rel='stylesheet', href='../stylesheets/style.css')
-		script(src='../jquery-1.12.4.min.js')
-		script(src='../bootstrap/js/bootstrap.min.js')
+		link(rel='stylesheet', href='../../bootstrap/css/bootstrap.min.css')
+		link(rel='stylesheet', href='../../stylesheets/style.css')
+		script(src='../../jquery-1.12.4.min.js')
+		script(src='../../bootstrap/js/bootstrap.min.js')
 		//- Dossier pas le même que les autres, ne sais pas pk
 		title
 	body
@@ -14,7 +14,7 @@ html
 			.container-fluid
 				.navbar-header
 					a.navbar-brand(href='#')
-						img(alt='Brand', src='../images/logo.png')
+						img(alt='Brand', src='../../images/logo.png')
 					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
 						span.sr-only Toggle navigation
 						span.icon-bar
@@ -42,38 +42,20 @@ html
 								if sess.type == "Caviste"
 									li
 										a(href='compte/#{sess.login}/macave') Ma cave
-								bs-example-navbar-collapse-1
+								else
 									li
 										a(href='#{sess.login}') Vos vins
 
 		.container-fluid
 			.row(style='margin-top: 100px')
-				form.col-lg-4.col-lg-offset-4(method='post', name='compteForm')
+				form.col-lg-4.col-lg-offset-4(enctype='multipart/form-data', method='post', name='addCaveForm', action='macave')
 					.form-group
-						label Genre
-						select.form-control(name='gender', id='gender')
-							if data.Item.Gender == "Femme"
-								option Homme
-								option(selected='selected') Femme
-							else
-								option(selected='selected')  Homme
-								option Femme
+						label Localisation
+						input.form-control(type='text', placeholder='Localisation', name='localisation', id='localisation')
 					.form-group
-						label Prénom
-						input.form-control(type='text', placeholder='Prénom', name='firstname', id='firstname', value='#{data.Item.Firstname}') 
+						label Caractéristiques
+						textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caractéristiques', id='caractéristiques')
 					.form-group
-						label Nom
-						input.form-control(type='text', placeholder='Nom', name='lastname', id='lastname', value='#{data.Item.Lastname}') 
-					.form-group
-						label Date de naissance
-						input.form-control(type='date', name='birth', id='birth', value='#{data.Item.Birth}') 
-					.form-group
-						label E-mail
-						input.form-control(type='email', placeholder='E-mail', name='email', id='email', value='#{data.Item.Email}') 
-					.form-group
-						label Téléphone
-						input.form-control(type='phone', placeholder='Téléphone', name='phone', id='phone', value='#{data.Item.Phone}')
-					if check
-						p Profil mis à jour
-					input.btn.btn-default(type='submit', value='Enregistrer')
-
+						label Photo cave
+						input.form-control(type='file', name='photocave', id='photocave')
+					input.btn.btn-default(type='submit', value='Ajouter')

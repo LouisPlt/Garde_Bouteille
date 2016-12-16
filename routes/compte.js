@@ -5,7 +5,7 @@ var router = express.Router();
 
 AWS.config.loadFromPath('./config.json');
 
-var sess;
+var ses
 
 /* GET home page. */
 router.get('/:log', function(req, res, next) {
@@ -15,7 +15,7 @@ router.get('/:log', function(req, res, next) {
 	} else {
 
 		var docClient = new AWS.DynamoDB.DocumentClient();
-		var table = "GardeBouteille";
+		var table = "Users";
 		var pseudo = sess.login;
 
 		var params = {											//On initialise l'item recherché dans la database
@@ -45,7 +45,7 @@ router.post('/:log', function(req, res, next) {
 	} else {
 
 		var docClient = new AWS.DynamoDB.DocumentClient();
-		var table = "GardeBouteille";
+		var table = "Users";
 		var pseudo = sess.login;
 
 		var params = {
@@ -54,7 +54,7 @@ router.post('/:log', function(req, res, next) {
 		        "Pseudo": pseudo
 		    },
 		    UpdateExpression: 											//Ne marche pas si la valeur est nulle
-		        "SET Gender = :gender, Firstname = :firstname, Lastname = :lastname, Birth = :birth, Email = :email, Phone = :phone ",
+		        "SET Gender = :gender, Firstname = :firstname, Lastname = :lastname, Birth = :birth, Email = :email, Phone = :phone",
 		    ExpressionAttributeValues: { 
 		    	":gender": req.body.gender,
 		        ":firstname": req.body.firstname,
@@ -74,7 +74,7 @@ router.post('/:log', function(req, res, next) {
 		    } else {
 		        console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
 			        var docClient = new AWS.DynamoDB.DocumentClient();
-					var table = "GardeBouteille";
+					var table = "Users";
 					var pseudo = sess.login;
 
 					var params = {											//On initialise l'item recherché dans la database
@@ -84,12 +84,14 @@ router.post('/:log', function(req, res, next) {
 					    }
 					};
 
-					docClient.get(params, function(err, data) {				//On récupère les donnée de la database
+					docClient.get(params, function(err, data) {				//On récupère les donnée de la database				//REFAIRE !!!!!!!!!!!!!!
 						if (err) {
 							console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
 							res.redirect('/');
 						} else {
 							console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+							sess.type = data.Item.type;
+							console.log("sess.type : " + sess.type);
 							res.render('compte', { sess: sess, data: data, check: true});
 						}
 				});
@@ -98,28 +100,5 @@ router.post('/:log', function(req, res, next) {
 
 	}
 });
-
-function searchDataBase(sess, res){
-	var docClient = new AWS.DynamoDB.DocumentClient();
-		var table = "GardeBouteille";
-		var pseudo = sess.login;
-
-		var params = {											//On initialise l'item recherché dans la database
-		    TableName: table,
-		    Key:{
-		        "Pseudo": pseudo
-		    }
-		};
-
-		docClient.get(params, function(err, data) {				//On récupère les donnée de la database
-			if (err) {
-				console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-				res.redirect('/');
-			} else {
-				console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-				res.render('compte', { sess: sess, data: data });
-			}
-		});
-}
 
 module.exports = router;

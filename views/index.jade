@@ -42,16 +42,18 @@ html
 									span.caret
 								ul.dropdown-menu
 									li
-										a(href='compte/#{sess.login}') Informations
+										a(href='#{sess.login}') Informations
 									li
 										a(href='compte/#{sess.login}') Compte
 									li.divider(role='separator')
 									li
 										a(href='#{sess.login}') Message
-									li
-										a(href='#{sess.login}') Vos caves
-									li
-										a(href='#{sess.login}') Vos vins
+									if sess.type == "Caviste"
+										li
+											a(href='compte/#{sess.login}/macave') Ma cave
+									else
+										li
+											a(href='#{sess.login}') Vos vins
 
 		img(alt='Présentation', src='images/vin.jpg')
 
