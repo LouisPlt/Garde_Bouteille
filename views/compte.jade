@@ -41,8 +41,8 @@ html
 									a(href='#{sess.login}') Message
 								if sess.type == "Caviste"
 									li
-										a(href='compte/#{sess.login}/macave') Ma cave
-								bs-example-navbar-collapse-1
+										a(href='/compte/#{sess.login}/macave') Ma cave
+								else
 									li
 										a(href='#{sess.login}') Vos vins
 

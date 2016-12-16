@@ -73,27 +73,26 @@ router.post('/:log', function(req, res, next) {
 				res.render('/', { sess: sess });
 		    } else {
 		        console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
-			        var docClient = new AWS.DynamoDB.DocumentClient();
-					var table = "Users";
-					var pseudo = sess.login;
+		        var docClient = new AWS.DynamoDB.DocumentClient();
+				var table = "Users";
+				var pseudo = sess.login;
 
-					var params = {											//On initialise l'item recherché dans la database
-					    TableName: table,
-					    Key:{
-					        "Pseudo": pseudo
-					    }
-					};
+				var params = {											//On initialise l'item recherché dans la database
+				    TableName: table,
+				    Key:{
+				        "Pseudo": pseudo
+				    }
+				};
 
-					docClient.get(params, function(err, data) {				//On récupère les donnée de la database				//REFAIRE !!!!!!!!!!!!!!
-						if (err) {
-							console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-							res.redirect('/');
-						} else {
-							console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-							sess.type = data.Item.type;
-							console.log("sess.type : " + sess.type);
-							res.render('compte', { sess: sess, data: data, check: true});
-						}
+				docClient.get(params, function(err, data) {				//On récupère les donnée de la database				//REFAIRE !!!!!!!!!!!!!!
+					if (err) {
+						console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+						res.redirect('/');
+					} else {
+						console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+						sess.type = data.Item.type;
+						res.render('compte', { sess: sess, data: data, check: true});
+					}
 				});
 		    }
 		});

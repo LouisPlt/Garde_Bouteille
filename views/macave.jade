@@ -35,7 +35,7 @@ html
 								li
 									a(href='#{sess.login}') Informations
 								li
-									a(href='compte/#{sess.login}') Compte
+									a(href='/compte/#{sess.login}') Compte
 								li.divider(role='separator')
 								li
 									a(href='#{sess.login}') Message
@@ -48,14 +48,29 @@ html
 
 		.container-fluid
 			.row(style='margin-top: 100px')
+				
 				form.col-lg-4.col-lg-offset-4(enctype='multipart/form-data', method='post', name='addCaveForm', action='macave')
-					.form-group
-						label Localisation
-						input.form-control(type='text', placeholder='Localisation', name='localisation', id='localisation')
-					.form-group
-						label Caractéristiques
-						textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caractéristiques', id='caractéristiques')
-					.form-group
-						label Photo cave
-						input.form-control(type='file', name='photocave', id='photocave')
-					input.btn.btn-default(type='submit', value='Ajouter')
+					if data.Item != undefined
+						.form-group
+							label Localisation
+							input.form-control(type='text', placeholder='Localisation', name='localisation', id='localisation', value='#{data.Item.Localisation}')
+						.form-group
+							label Caractéristiques
+							textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques') #{data.Item.Caracteristiques}
+						.form-group
+							label Photo cave
+							input.form-control(type='file', name='photocave', id='photocave')
+						//- if data.Item.PhotoCave != false
+							img(alt='photocave', src='/uploads/caves/' + sess.login + ".jpg")
+						input.btn.btn-default(type='submit', value='Ajouter')
+					else
+						.form-group
+							label Localisation
+							input.form-control(type='text', placeholder='Localisation', name='localisation', id='localisation')
+						.form-group
+							label Caractéristiques
+							textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques')
+						.form-group
+							label Photo cave
+							input.form-control(type='file', name='photocave', id='photocave')
+						input.btn.btn-default(type='submit', value='Ajouter')
