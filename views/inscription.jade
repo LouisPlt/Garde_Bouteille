@@ -45,16 +45,40 @@ html
 							a.nav-marging-item(href='/') Contact
 
 		.row(style='margin-top: 100px')
-			form.col-lg-4.col-lg-offset-4(method='post', name='subscriptionForm', onkeypress="return event.keyCode != 13;", onsubmit="return validateForm()")
+			form.col-lg-4.col-lg-offset-4(method='post', name='subscriptionForm', onsubmit="return validateForm()")
+				.form-group
+					label Type
+					select.form-control(name='type', id='type', required="required")
+						option Caviste
+						option Oenophile
 				.form-group
 					label E-mail
-					input.form-control(type='email', placeholder='Password', name='email', id='email')
+					input.form-control(type='email', placeholder='Password', name='email', id='email', required="required")
 				.form-group
 					label Pseudo
-					input.form-control(type='text', placeholder='Login', name='login', id='login')
+					input.form-control(type='text', placeholder='Login', name='login', id='login', required="required")
 				.form-group
 					label Password
-					input.form-control(type='password', placeholder='Password', name='password', id='password')
+					input.form-control(type='password', placeholder='Password', name='password', id='password', required="required")
+				.form-group
+					label Genre
+					select.form-control(name='gender', id='gender', required="required")
+						option Homme
+						option Femme
+				.form-group
+					label Prénom
+					input.form-control(type='text', placeholder='Prénom', name='firstname', id='firstname', required="required") 
+				.form-group
+					label Nom
+					input.form-control(type='text', placeholder='Nom', name='lastname', id='lastname', required="required") 
+				.form-group
+					label Date de naissance
+					input.form-control(type='date', name='birth', id='birth', required="required") 
+				.form-group
+					label Téléphone
+					input.form-control(type='phone', placeholder='Téléphone', name='phone', id='phone', required="required")
+				if field
+					p Veuillez remplir tout les champs
 				input.btn.btn-default(type='submit', value='Inscription')
 
 
