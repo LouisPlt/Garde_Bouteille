@@ -17,7 +17,7 @@ router.post('/', function(req, res, next) {
 	sess = req.session;
 
 	var docClient = new AWS.DynamoDB.DocumentClient();
-	var table = "GardeBouteille";
+	var table = "Users";
 	var pseudo = req.body.login;
 	var params = {											//On initialise l'item recherché dans la database
 	    TableName: table,
@@ -39,6 +39,7 @@ router.post('/', function(req, res, next) {
 				if (req.body.password == data.Item.Password) {
 					console.log("Connecté : " + req.body.login);
 					sess.login = req.body.login;
+					sess.type = data.Item.Type;
 					res.redirect('/');
 				} else {
 					console.log("Password erroné");
