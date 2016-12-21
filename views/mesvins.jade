@@ -26,6 +26,9 @@ html
 					ul.nav.navbar-nav.navbar-right
 						li.active
 							a.nav-marging-item(href='/') Accueil
+						if sess.type == "Oenophile"
+							li
+								a.nav-margin-item(href='/recherche') Recherche
 						li
 							a.nav-marging-item(href='/') Contact
 						li.dropdown
@@ -40,33 +43,13 @@ html
 								li
 									a(href='#{sess.login}') Message
 								li
-									a(href='/compte/#{sess.login}/macave') Ma cave
+									a(href='/compte/#{sess.login}/mesvins') Mes vins
 
 		.container-fluid
 			.row(style='margin-top: 100px')
 				
-				form.col-lg-4.col-lg-offset-4(enctype='multipart/form-data', method='post', name='addCaveForm', action='macave')
-					if data.Item != undefined
-						.form-group
-							label Localisation
-							input.form-control(type='text', placeholder='Localisation', name='localisation', id='localisation', value='#{data.Item.Localisation}')
-						.form-group
-							label Caractéristiques
-							textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques') #{data.Item.Caracteristiques}
-						.form-group
-							label Photo cave
-							input.form-control(type='file', name='photocave', id='photocave')
-						//- if data.Item.PhotoCave != false
-							img(alt='photocave', src='/uploads/caves/' + sess.login + ".jpg")
-						input.btn.btn-default(type='submit', value='Ajouter')
-					else
-						.form-group
-							label Localisation
-							input.form-control(type='text', placeholder='Localisation', name='localisation', id='localisation')
-						.form-group
-							label Caractéristiques
-							textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques')
-						.form-group
-							label Photo cave
-							input.form-control(type='file', name='photocave', id='photocave')
-						input.btn.btn-default(type='submit', value='Ajouter')
+				if data.Items != undefined
+					each val in data.Items
+						p Bouteille : #{val.ID}
+				else 
+					p Pas de bouteilles stockées
