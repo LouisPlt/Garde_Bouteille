@@ -26,6 +26,9 @@ html
 					ul.nav.navbar-nav.navbar-right
 						li.active
 							a.nav-marging-item(href='/') Accueil
+						if sess.type == "Oenophile"
+							li
+								a.nav-margin-item(href='/recherche') Recherche
 						li
 							a.nav-marging-item(href='/') Contact
 						li.dropdown
@@ -35,16 +38,16 @@ html
 								li
 									a(href='#{sess.login}') Informations
 								li
-									a(href='compte/#{sess.login}') Compte
+									a(href='/compte/#{sess.login}') Compte
 								li.divider(role='separator')
 								li
 									a(href='#{sess.login}') Message
 								if sess.type == "Caviste"
 									li
-										a(href='/compte/#{sess.login}/macave') Ma cave
+										a(href='macave') Ma cave
 								else
 									li
-										a(href='#{sess.login}') Vos vins
+										a(href='/compte/#{sess.login}/mesvins') Mes vins
 
 		.container-fluid
 			.row(style='margin-top: 100px')
