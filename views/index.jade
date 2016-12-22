@@ -58,9 +58,8 @@ html
 										li
 											a(href='compte/#{sess.login}/mesvins') Mes vins
 
-		img(alt='Présentation', src='images/vin.jpg')
+		img(alt='Présentation', src='images/cave.jpg', id="image-cave")
+		div.container
+			p Nous proposons au utilisateur de stocker leurs vins dans la caves d'autre utilisateurs
 
-		p Nous proposons au utilisateur de stocker leurs vins dans la caves d'autres utilisateurs
-
-		p #{sess.login}
-
+			p #{sess.login}
