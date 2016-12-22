@@ -63,7 +63,9 @@ router.post('/:log/macave', upload.single('photocave'), function(req, res, next)
 			var docClient = new AWS.DynamoDB.DocumentClient();
 			var table = "Caves";
 			var pseudo = sess.login;
-			var localisation = req.body.localisation;
+			var lat = req.body.lat;
+			var lng = req.body.lng;
+			var formatted_address = req.body.formatted_address;
 			var caracteristiques = req.body.caracteristiques;
 			if (req.file == undefined)
 				var photocave = false;
@@ -103,9 +105,11 @@ router.post('/:log/macave', upload.single('photocave'), function(req, res, next)
 						        "Pseudo": pseudo
 						    },
 						    UpdateExpression: 											//Ne marche pas si la valeur est nulle
-						        "SET Localisation = :localisation, Caracteristiques = :caracteristiques, PhotoCave = :photocave",
+						        "SET Lat = :lat, Lng = :lng, Formatted_address = :formatted_address, Caracteristiques = :caracteristiques, PhotoCave = :photocave",
 						    ExpressionAttributeValues: { 
-						        ":localisation": localisation,
+						        ":lat": lat,
+						        ":lng": lng,
+						        ":formatted_address": formatted_address,
 						        ":caracteristiques": caracteristiques,
 						        ":photocave": photocave
 						    },
@@ -129,7 +133,9 @@ router.post('/:log/macave', upload.single('photocave'), function(req, res, next)
 						    TableName: table,
 						    Item:{
 						        "Pseudo": pseudo,
-						        "Localisation": localisation,
+						        "Formatted_address": formatted_address,
+						        "Lng": lng,
+						        "lat": lat,
 						        "Caracteristiques": caracteristiques,
 						        "PhotoCave": photocave
 						    }

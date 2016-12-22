@@ -7,6 +7,7 @@ html
 		link(rel='stylesheet', href='../../stylesheets/style.css')
 		script(src='../../jquery-1.12.4.min.js')
 		script(src='../../bootstrap/js/bootstrap.min.js')
+
 		//- Dossier pas le même que les autres, ne sais pas pk
 		title
 	body
@@ -48,8 +49,12 @@ html
 				form.col-lg-4.col-lg-offset-4(enctype='multipart/form-data', method='post', name='addCaveForm', action='macave')
 					if data.Item != undefined
 						.form-group
-							label Localisation
-							input.form-control(type='text', placeholder='Localisation', name='localisation', id='localisation', value='#{data.Item.Localisation}')
+							#locationField
+								Label Adresse
+								input.form-control#autocomplete(placeholder='Enter your address', type='text', value='#{data.Item.Formatted_address}')
+							input(type='hidden', name='lat', id='lat')
+							input(type='hidden', name='lng', id='lng')
+							input(type='hidden', name='formatted_address', id='formatted_address')
 						.form-group
 							label Caractéristiques
 							textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques') #{data.Item.Caracteristiques}
@@ -61,8 +66,12 @@ html
 						input.btn.btn-default(type='submit', value='Ajouter')
 					else
 						.form-group
-							label Localisation
-							input.form-control(type='text', placeholder='Localisation', name='localisation', id='localisation')
+							#locationField
+								Label Adresse
+								input.form-control#autocomplete(placeholder='Enter your address' type='text')
+							input(type='hidden', name='lat', id='lat')
+							input(type='hidden', name='lng', id='lng')
+							input(type='hidden', name='formatted_address', id='formatted_address')
 						.form-group
 							label Caractéristiques
 							textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques')
@@ -70,3 +79,26 @@ html
 							label Photo cave
 							input.form-control(type='file', name='photocave', id='photocave')
 						input.btn.btn-default(type='submit', value='Ajouter')
+				
+				script.
+					var autocomplete;
+
+					function initAutocomplete() {
+					  // Create the autocomplete object, restricting the search to geographical location types.
+					  autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')), {types: ['geocode']});
+					  autocomplete.addListener('place_changed', getLatLng);
+					}
+					function getLatLng() {
+					  // Get the place details from the autocomplete object.
+						var place = autocomplete.getPlace();
+
+						var lat = place.geometry.location.lat();
+						var lng = place.geometry.location.lng();
+						var formatted_address =  place.formatted_address;
+
+						document.forms["addCaveForm"]["lat"].value = lat;
+						document.forms["addCaveForm"]["lng"].value = lng;
+						document.forms["addCaveForm"]["formatted_address"].value = formatted_address;
+					}
+				
+				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAoDuptN__RmtZgdYFSc54C8wzY-6A5XN0&signed_in=true&libraries=places&callback=initAutocomplete')

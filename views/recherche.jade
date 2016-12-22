@@ -7,6 +7,7 @@ html
 		link(rel='stylesheet', href='../../stylesheets/style.css')
 		script(src='../../jquery-1.12.4.min.js')
 		script(src='../../bootstrap/js/bootstrap.min.js')
+		
 		//- Dossier pas le même que les autres, ne sais pas pk
 		style.
 			#map {
@@ -133,5 +134,21 @@ html
 								].join(' ');
 							}
 						});
+						addMarker(map)
 					}
-				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=MYKEY&signed_in=true&libraries=places&callback=initMap')
+
+					function addMarker(map) {
+						var data_list = !{JSON.stringify(data.Items)};
+						for ( var i = 0 ; i < data_list.length ; i++) {
+							var myLatLng = {lat: Number(data_list[i].Lat), lng: Number(data_list[i].Lng)};
+							var marker = new google.maps.Marker({
+							    position: myLatLng,
+							    map: map
+							});
+						}
+					}
+					window.onload = initMap;
+
+				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAoDuptN__RmtZgdYFSc54C8wzY-6A5XN0&signed_in=true&libraries=places')
+				
+
