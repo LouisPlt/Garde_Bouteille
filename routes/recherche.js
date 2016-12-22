@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 
 	var params = {
 	    TableName : table,
-		ProjectionExpression: "Caracteristiques, Pseudo, Localisation, Lat, Lon"
+		ProjectionExpression: "Caracteristiques, Pseudo, Formatted_address, Lat, Lng"
 	};
 
 	console.log("Scanning Movies table.");
@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
 	        // print all the movies
 	        console.log("Scan succeeded.");
 	        data.Items.forEach(function(caves) {
-        		console.log(caves.Pseudo + ": " + caves.Caracteristiques + " / " + caves.Localisation + " / " + caves.Lat + " / " + caves.Lon);
+        		console.log(caves.Pseudo + ": " + caves.Caracteristiques + " / " + caves.Formatted_address + " / " + caves.Lat + " / " + caves.Lng);
 	        });
 
 	        // continue scanning if we have more movies, because

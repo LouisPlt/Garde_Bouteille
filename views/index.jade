@@ -35,8 +35,9 @@ html
 						ul.nav.navbar-nav.navbar-right
 							li.active
 								a.nav-marging-item(href='') Accueil
-							li
-								a.nav-marging-item(href='recherche') Recherche
+							if sess.type == "Oenophile"
+								li
+									a.nav-marging-item(href='recherche') Recherche
 							li
 								a.nav-marging-item(href='/') Contact
 							li.dropdown
