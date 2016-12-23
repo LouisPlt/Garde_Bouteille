@@ -12,6 +12,11 @@ var connexion = require('./routes/connexion');
 var inscription = require('./routes/inscription');
 var deconnexion = require('./routes/deconnexion');
 
+var compte = require('./routes/compte');
+var macave = require('./routes/macave');
+var mesvins = require('./routes/mesvins');
+var recherche = require('./routes/recherche');
+
 var app = express();
 
 // view engine setup
@@ -32,6 +37,11 @@ app.use('/users', users);
 app.use('/connexion', connexion);
 app.use('/inscription', inscription);
 app.use('/deconnexion', deconnexion);
+
+app.use('/compte', compte);
+app.use('/compte', macave);
+app.use('/compte', mesvins);
+app.use('/recherche', recherche);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

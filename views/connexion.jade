@@ -13,12 +13,14 @@ html
 				if (password == null || password == "") {
 					return false;
 				}
-				if (login == null || login1 == "") {
+				if (login == null || login == "") {
 					return false;
 				}
 				console.log("loginloginlogin :" + login);
 			}
-			
+
+			//Refaire cette partie pour ne pas l faire apparaitre côté client
+
 	body
 		nav.navbar.navbar-default.navbar-fixed-top
 			.container-fluid
@@ -42,7 +44,8 @@ html
 							a.nav-marging-item(href='/') Contact
 
 		.row(style='margin-top: 100px')
-			form.col-lg-4.col-lg-offset-4(method='post', name='connectionForm', onkeypress="return event.keyCode != 13;", onsubmit="return validateForm()")
+
+			form.col-lg-4.col-lg-offset-4(method='post', name='connectionForm', onsubmit="return validateForm()")
 				.form-group
 					label Login
 					if login != undefined
