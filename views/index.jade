@@ -1,54 +1,118 @@
 doctype html
 html
 	head
-		title
 		meta(charset='utf-8')
-		link(rel='stylesheet', href='bootstrap/css/bootstrap.min.css')
 		link(rel='stylesheet', href='stylesheets/style.css')
-		script(src='jquery-1.12.4.min.js')
-		script(src='bootstrap/js/bootstrap.min.js')
-		//- Mettre bootstrap apres jquerry
-		title
+		title Garde Bou'teille
 	body
-		nav.navbar.navbar-default.navbar-fixed-top
-			.container-fluid
-				.navbar-header
-					a.navbar-brand(href='#')
-						img(alt='Brand', src='images/logo.png')
-					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
-						span.sr-only Toggle navigation
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
-				#bs-example-navbar-collapse-1.collapse.navbar-collapse
-					
-					if (sess.login == undefined)
-						input.btn.btn-default.navbar-right(type='button', value='Connexion', onclick="location.href='/connexion'", style='margin-left: 20px;margin-right: 20px;margin-top: 8px')
-						input.btn.btn-default.navbar-right(type='button', value="S'inscrire", onclick="location.href='/inscription'", style='margin-left: 20px;margin-top: 8px')
-						ul.nav.navbar-nav.navbar-right
-							li.active
-								a.nav-marging-item(href='/') Accueil
-							li
-								a.nav-marging-item(href='/') Contact
-					else
-						input.btn.btn-default.navbar-right(type='button', value="Deconnexion", onclick="location.href='/deconnexion'", style='margin-left: 20px;margin-right: 20px;margin-top: 8px')
-						ul.nav.navbar-nav.navbar-right
-							li.active
-								a.nav-marging-item(href='') Accueil
-							if sess.type == "Oenophile"
+		div#background
+			div#page
+				div#sidebar
+					a.logo(href='/') 
+						img
+					ul
+						li.selected
+							span
+								a(href='/') Home
+						li
+							span
+								a(href='/') Our Wines
+						li
+							span
+								a(href='/') About
+						li 	
+							span
+								a(href='/') Contact
+					div.contact
+						ul
+							li.address
+								span Address
+								ul
+									li 30 - 32 Avenue de la République
+								
+									li Villejuif
+
+									li France
+							li.contactInfo
+								span Info
+								ul
+									li Jenny 867-5309
+							li.mail
+								span e-mail
+								ul
+									li
+										a(href='/') louis.pouillot@efrei.net
+					div.connect
+						b Follow Us
+						p In hendrerit sollicitudin eros, sit amet tincidunt magna condimentum id.
+						ul
+							li#facebook
+								a(href='/') Facebook
+							li#twitter
+								a(href='/') Twitter
+							li#googleplus
+								a(href='/') Googleplus
+							li#connectmail
+								a(href='/') Email
+					div.newsletter
+						b Login
+							p
+								a(href='/') Accéder à votre cave
+				div#content
+					div#header
+						img(src="images/grapes.jpg")
+						div
+							i Lorem ipsum dolor sit amet
+								a.more En savoir plus
+							img(src="images/wine-bottles.png")
+					div#body
+						div.header
+							div
+								img(src="images/red-wine.jpg")
+								div
+									b Lorem ipsum
+									p In hendrerit sollicitudin eros, sit amet tincidunt magna condimentum id
+									a.more(href="/") En savoir plus
+							div
+								img(src="images/lady.jpg")
+								i Lorem ipsum dolor sit amet.
+									a.more(href="/") En savoir plus
+						div.body
+							ul
 								li
-									a.nav-marging-item(href='recherche') Recherche
-							li
-								a.nav-marging-item(href='/') Contact
-							li.dropdown
-								a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') #{sess.login}
-									span.caret
-								ul.dropdown-menu
+									a.figure(href="/")
+										img(src="images/our-wines.png")
+									h3 Nos Vins
+									p Pellentesque a placerat dui. Suspendisse laoreet placerat turpis vel semper.
+									a.more(href="/") En savoir plus
+								li
+									a.figure(href="/")
+										img(src="images/history.png")
+									h3 Historique
+									p Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+									a.more(href="/") En savoir plus
+								li
+									a.figure(href="/")
+										img(src="images/about.png")
+									h3 About
+									p Vivamus at lectus purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+									a.more(href="/") En savoir plus
+						div.footer
+							div.featured
+								h2 La Teille du Jour
+								a(href="/")
+									img(src="images/featured-wine.png")
+							div.article
+								h2 Derniers Posts
+								ul
 									li
-										a(href='#{sess.login}') Informations
-									li
-										a(href='compte/#{sess.login}') Compte
-									li.divider(role='separator')
+										img(src="images/man.png")
+										div
+											h3 
+												a(href="/") Lorem Ipsum nec elementum qam.
+											small 22 Décembre 2016
+											p In hendrerit sollicitudin eros, sit amet tincidunt magna condimentum id. Phasellus nec elementum quam. Vivamus at lectus purus.
+											a(href="/") En savoir plus
 									li
 										a(href='#{sess.login}') Message
 									if sess.type == "Caviste"
@@ -58,7 +122,23 @@ html
 										li
 											a(href='compte/#{sess.login}/mesvins') Mes vins
 
-		img(alt='Présentation', src='images/cave.jpg', id="image-cave")
-		div.container
-			p Nous proposons au utilisateur de stocker leurs vins dans la caves d'autre utilisateurs
-			p #{sess.login}
+										img(src="images/wine-ingredient.png")
+										div
+											h3 
+												a(href="/") Lorem Ipsum nec elementum qam.
+											small 22 Décembre 2016
+											p In hendrerit sollicitudin eros, sit amet tincidunt magna condimentum id. Phasellus nec elementum quam. Vivamus at lectus purus.
+											a(href="/") En savoir plus
+					div#footer
+						ul
+							li
+								a(href='/') Home
+							li
+								a(href='/') Our Wines
+							li
+								a(href='/') About
+							li 	
+								a(href='/') Contact
+						p
+							p &copy; 
+								a(href="") Paredes Winery 2032. All Rights Reserved.

@@ -6,7 +6,6 @@ var router = express.Router();
 AWS.config.loadFromPath('./config.json');
 
 var sess;
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render('inscription');
@@ -14,6 +13,11 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 
+	var docClient = new AWS.DynamoDB.DocumentClient();
+	var table = "GardeBouteille";
+	var pseudo = req.body.login;
+	var password = req.body.password;
+	var email = req.body.email;
 	sess = req.session;
 
 	var docClient = new AWS.DynamoDB.DocumentClient();
@@ -49,7 +53,6 @@ router.post('/', function(req, res, next) {
 	        "Phone": phone
 	    }
 	};
-	
 	docClient.get(paramsGet, function(err, data) {				//On récupère les donnée de la database
 		if (err) {
 			console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));

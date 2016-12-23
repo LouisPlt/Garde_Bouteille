@@ -17,6 +17,7 @@ router.post('/', function(req, res, next) {
 	sess = req.session;
 
 	var docClient = new AWS.DynamoDB.DocumentClient();
+	var table = "GardeBouteille";
 	var table = "Users";
 	var pseudo = req.body.login;
 	var params = {											//On initialise l'item recherché dans la database

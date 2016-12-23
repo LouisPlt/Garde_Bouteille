@@ -11,6 +11,7 @@ var users = require('./routes/users');
 var connexion = require('./routes/connexion');
 var inscription = require('./routes/inscription');
 var deconnexion = require('./routes/deconnexion');
+
 var compte = require('./routes/compte');
 var macave = require('./routes/macave');
 var mesvins = require('./routes/mesvins');
@@ -38,6 +39,7 @@ app.use('/users', users);
 app.use('/connexion', connexion);
 app.use('/inscription', inscription);
 app.use('/deconnexion', deconnexion);
+
 app.use('/compte', compte);
 app.use('/compte', macave);
 app.use('/compte', mesvins);
