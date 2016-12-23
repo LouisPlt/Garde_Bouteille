@@ -41,7 +41,7 @@ router.get('/', function(req, res, next) {
 	            params.ExclusiveStartKey = data.LastEvaluatedKey;
 	            docClient.scan(params, onScan);
 	        }
-	        res.render('recherche', { sess: sess, data: data });
+	        res.render('recherche', { sess: sess, caves: data });
 	    }
 	}
 });

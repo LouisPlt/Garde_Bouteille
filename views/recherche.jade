@@ -7,7 +7,6 @@ html
 		script(src='../../jquery-1.12.4.min.js')
 		script(src='../../bootstrap/js/bootstrap.min.js')
 		
-		
 	body
 		nav.navbar.navbar-default.navbar-fixed-top
 			.container-fluid
@@ -48,16 +47,28 @@ html
 			.row(style='margin-top: 100px')
 				input#pac-input.controls(type='text', placeholder='Enter a location')
 				#map
+
+			.row
+				table(class='table table-bordered table-striped table-hover', id='storeTable')
+					tr
+						th Caviste
+						th Adresse
+						th Caracteristiques
+					each val in caves.Items
+						tr#test(data-content='Popover with data-trigger', rel='popover', data-placement='top', data-original-title='Title', data-trigger='hover')
+							th #{val.Pseudo}
+							th #{val.Formatted_address}
+							th #{val.Caracteristiques}
+
 				script.
+					$('#test').popover();
 					function initMap() {
 						var map = new google.maps.Map(document.getElementById('map'), {
 							center: {lat: 48.8557, lng: 2.3450},
 							zoom: 12
 						});
 						var input = (document.getElementById('pac-input'));
-						var types = document.getElementById('type-selector');
 						map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-						map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 						var autocomplete = new google.maps.places.Autocomplete(input);
 						autocomplete.bindTo('bounds', map);
 						var infowindow = new google.maps.InfoWindow();
@@ -95,9 +106,17 @@ html
 					}
 
 					function addMarker(map) {
-						var data_list = !{JSON.stringify(data.Items)};
-						for ( var i = 0 ; i < data_list.length ; i++) {
-							var myLatLng = {lat: Number(data_list[i].Lat), lng: Number(data_list[i].Lng)};
+						var caves_list = !{JSON.stringify(caves.Items)};
+
+						//-			Change color marker
+						//- var pinColor = "AFAE8B";
+						//- var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+						//- 	new google.maps.Size(21, 34),
+						//- 	new google.maps.Point(0,0),
+						//- 	new google.maps.Point(10, 34));
+						
+						for ( var i = 0 ; i < caves_list.length ; i++) {
+							var myLatLng = {lat: Number(caves_list[i].Lat), lng: Number(caves_list[i].Lng)};
 							var marker = new google.maps.Marker({
 							    position: myLatLng,
 							    map: map
@@ -106,5 +125,9 @@ html
 					}
 					window.onload = initMap;
 
+<<<<<<< HEAD
 				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=#{process.env.APIKEY}&signed_in=true&libraries=places')
+=======
+				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB6pRj5oPTV3sni9BwcPDG7mca_Os9kprI&signed_in=true&libraries=places')
+>>>>>>> Olivier
 				
