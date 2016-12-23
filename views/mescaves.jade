@@ -7,6 +7,7 @@ html
 		link(rel='stylesheet', href='../../stylesheets/style.css')
 		script(src='../../jquery-1.12.4.min.js')
 		script(src='../../bootstrap/js/bootstrap.min.js')
+
 		//- Dossier pas le même que les autres, ne sais pas pk
 		title
 	body
@@ -27,8 +28,6 @@ html
 						li.active
 							a.nav-marging-item(href='/') Accueil
 						li
-							a.nav-margin-item(href='/recherche') Recherche
-						li
 							a.nav-marging-item(href='/') Contact
 						li.dropdown
 							a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') #{sess.login}
@@ -42,13 +41,15 @@ html
 								li
 									a(href='#{sess.login}') Message
 								li
-									a(href='/compte/#{sess.login}/mesvins') Mes vins
+									a(href='/compte/#{sess.login}/mescaves') Ma cave
 
 		.container-fluid
 			.row(style='margin-top: 100px')
 				
-				if data.Items != undefined
-					each val in data.Items
-						p Bouteille : #{val.ID}
-				else 
-					p Pas de bouteilles stockées
+				each val in data
+					Label #{val.Formatted_address}
+					p
+						a(href='mescaves/' + val.ID) #{val.Caracteristiques}
+
+				button.btn.btn-default(type='button', onclick="location.href = 'addcave';") Ajouter une cave
+

@@ -102,7 +102,7 @@ html
 								].join(' ');
 							}
 						});
-						addMarker(map)
+						addMarker(map);
 					}
 
 					function addMarker(map) {
@@ -119,10 +119,15 @@ html
 							var myLatLng = {lat: Number(caves_list[i].Lat), lng: Number(caves_list[i].Lng)};
 							var marker = new google.maps.Marker({
 							    position: myLatLng,
-							    map: map
+							    map: map,
+							    title: caves_list[i].Pseudo
+							});
+							marker.addListener('click', function() {
+								document.location.href = "#{sess.login}/" + marker.title + "/addvins";
 							});
 						}
 					}
+
 					window.onload = initMap;
 
 				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=#{process.env.APIKEY}&signed_in=true&libraries=places')
