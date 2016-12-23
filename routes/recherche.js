@@ -10,7 +10,7 @@ var sess;
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	sess = req.session;
-		
+
 	var docClient = new AWS.DynamoDB.DocumentClient();
 	var table = "Caves";
 	var pseudo = sess.login;
