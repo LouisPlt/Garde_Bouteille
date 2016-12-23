@@ -90,6 +90,10 @@ body {
 	margin: 0 10px 0 0;
 	padding: 0;
 	width: 230px;
+	z-index: 9999;
+	position: fixed;
+
+
 }
 #sidebar a.logo {
 	display: block;
@@ -309,6 +313,7 @@ body {
 	margin: 0;
 	padding: 0;
 	width: 700px;
+	margin-left: 240px;
 }
 #content #header {
 	margin: 0;
