@@ -1,6 +1,5 @@
 var express = require('express');
 var session = require('express-session');
-//var AWS = require('aws-sdk');
 var router = express.Router();
 require('../models/users_model');
 var dynamoose = require('dynamoose');
@@ -19,19 +18,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
 
 	session = req.session;
-
-	var docClient = new AWS.DynamoDB.DocumentClient();
-	var table = "GardeBouteille";
-	var table = "Users";
-	var pseudo = req.body.login;
-// 	var params = {											//On initialise l'item recherché dans la database
-// 	TableName: table,
-// 	Key:{
-// 		"Pseudo": pseudo
-// 	}
-// };
-
-	User.get({Pseudo: pseudo}).then(function (user) {
+	User.get({Pseudo: req.body.login}).then(function (user) {
 		if (req.body.password == user.Password) {
 			console.log("Connecté : " + user.Pseudo);
 			session.user = user;
@@ -43,7 +30,6 @@ router.post('/', function(req, res, next) {
 		}, function(error) {
 			console.error(error);
 			res.render('connexion', { compte: "inexistant"});
-
 		});
 	});
 //

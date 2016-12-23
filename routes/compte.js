@@ -2,10 +2,12 @@ var express = require('express');
 var session = require('express-session');
 //var AWS = require('aws-sdk');
 var router = express.Router();
-
+require('../models/users_model');
+var dynamoose = require('dynamoose');
+var Users = dynamoose.model('Users');
 //AWS.config.loadFromPath('./config.json');
 
-var ses
+var sess;
 
 /* GET home page. */
 router.get('/:log', function(req, res, next) {
@@ -13,27 +15,8 @@ router.get('/:log', function(req, res, next) {
 	if ( sess.login != req.params.log ) {
 		res.redirect('/');
 	} else {
-
-		var docClient = new AWS.DynamoDB.DocumentClient();
-		var table = "Users";
-		var pseudo = sess.login;
-
-		var params = {											//On initialise l'item recherché dans la database
-		    TableName: table,
-		    Key:{
-		        "Pseudo": pseudo
-		    }
-		};
-
-		docClient.get(params, function(err, data) {				//On récupère les donnée de la database
-			if (err) {
-				console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-				res.redirect('/');
-			} else {
-				console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-				res.render('compte', { sess: sess, data: data });
-			}
-		});
+		console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+		res.render('compte', { user: session.user });
 	}
 });
 

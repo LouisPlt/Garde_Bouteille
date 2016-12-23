@@ -55,7 +55,7 @@ html
 					.form-group
 						label Genre
 						select.form-control(name='gender', id='gender')
-							if data.Item.Gender == "Femme"
+							if user.Gender == "Femme"
 								option Homme
 								option(selected='selected') Femme
 							else
@@ -63,20 +63,19 @@ html
 								option Femme
 					.form-group
 						label Prénom
-						input.form-control(type='text', placeholder='Prénom', name='firstname', id='firstname', value='#{data.Item.Firstname}') 
+						input.form-control(type='text', placeholder='Prénom', name='firstname', id='firstname', value='#{user.Firstname}') 
 					.form-group
 						label Nom
-						input.form-control(type='text', placeholder='Nom', name='lastname', id='lastname', value='#{data.Item.Lastname}') 
+						input.form-control(type='text', placeholder='Nom', name='lastname', id='lastname', value='#{user.Lastname}') 
 					.form-group
 						label Date de naissance
-						input.form-control(type='date', name='birth', id='birth', value='#{data.Item.Birth}') 
+						input.form-control(type='date', name='birth', id='birth', value='#{user.Birth}') 
 					.form-group
 						label E-mail
-						input.form-control(type='email', placeholder='E-mail', name='email', id='email', value='#{data.Item.Email}') 
+						input.form-control(type='email', placeholder='E-mail', name='email', id='email', value='#{user.Email}') 
 					.form-group
 						label Téléphone
-						input.form-control(type='phone', placeholder='Téléphone', name='phone', id='phone', value='#{data.Item.Phone}')
+						input.form-control(type='phone', placeholder='Téléphone', name='phone', id='phone', value='#{user.Phone}')
 					if check
 						p Profil mis à jour
 					input.btn.btn-default(type='submit', value='Enregistrer')
-

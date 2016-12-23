@@ -1,7 +1,9 @@
 var express = require('express');
 var session = require('express-session');
 var router = express.Router();
-
+require('../models/users_model');
+var dynamoose = require('dynamoose');
+var Users = dynamoose.model('Users');
 var sess;
 
 /* GET home page. */
