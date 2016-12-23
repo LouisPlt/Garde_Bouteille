@@ -1,9 +1,9 @@
 var express = require('express');
 var session = require('express-session');
-var AWS = require('aws-sdk');
+//var AWS = require('aws-sdk');
 var router = express.Router();
 
-AWS.config.loadFromPath('./config.json');
+//AWS.config.loadFromPath('./config.json');
 
 var ses
 
@@ -55,7 +55,7 @@ router.post('/:log', function(req, res, next) {
 		    },
 		    UpdateExpression: 											//Ne marche pas si la valeur est nulle
 		        "SET Gender = :gender, Firstname = :firstname, Lastname = :lastname, Birth = :birth, Email = :email, Phone = :phone",
-		    ExpressionAttributeValues: { 
+		    ExpressionAttributeValues: {
 		    	":gender": req.body.gender,
 		        ":firstname": req.body.firstname,
 		        ":lastname": req.body.lastname,

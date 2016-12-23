@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var dynamoose = require('dynamoose')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -20,6 +21,11 @@ var recherche = require('./routes/recherche');
 var app = express();
 require('dotenv').config();
 
+dynamoose.AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
