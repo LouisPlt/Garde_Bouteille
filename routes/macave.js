@@ -8,18 +8,19 @@ AWS.config.loadFromPath('./config.json');
 
 var sess;
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/caves')
-  },
-  filename: function (req, file, cb) {
-    cb(null, sess.login)
-  }
-});
+// var storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/caves')
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, sess.login)
+//   }
+// });
 
-var upload = multer({ storage: storage });
+// var upload = multer({ storage: storage });
 
-/* GET home page. */
+
+
 router.get('/:log/mescaves/:caveId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
@@ -29,119 +30,41 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
-			var table = "Caves";
+			var table = "Vins";
 			var caveId = req.params.caveId;
-			var params = {											//On initialise l'item recherché dans la database
-			    TableName: table,
-			    Key:{
-			        "ID": caveId
+
+			var params = {
+			    TableName : table,
+				ProjectionExpression: "ID, Pseudo, Winery, Annee",
+			    FilterExpression: "CaveID = :caveId",
+			    ExpressionAttributeValues: {
+			         ":caveId": caveId
 			    }
 			};
 
-			docClient.get(params, function(err, data) {				//On récupère les donnée de la database
-				if (err) {
-					console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-					res.redirect('/');
-				} else {
-					console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-					if (data.Item.Pseudo != sess.login)
-						res.redirect('/');
-					else
-						res.render('macave',  { sess: sess, data: data.Item });
-				}
-			});
-		}
-	}
-});
+			console.log("Scanning vins table.");
+			docClient.scan(params, onScan);
 
+			function onScan(err, data) {
+			    if (err) {
+			        console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+			        res.redirect('/');
+			    } else {
+			        // print all the movies
+			        console.log("Scan succeeded.");
 
-router.post('/:log/mescaves/:caveId', upload.single('photocave'), function(req, res, next) {					// Faire un test sur le format et les tailles
-	sess = req.session;
-	if ( sess.login != req.params.log ) {
-		res.redirect('/');
-	} else {
-		if ( sess.type != "Caviste") {
-			res.redirect('/');
-		} else {
-			var docClient = new AWS.DynamoDB.DocumentClient();
-			var table = "Caves";
-			var caveId = req.params.caveId;
-			var pseudo = sess.login;
-			var lat = req.body.lat;
-			var lng = req.body.lng;
-			var formatted_address = req.body.formatted_address;
-			var caracteristiques = req.body.caracteristiques;
-			if (req.file == undefined)
-				var photocave = false;
-			else
-				switch(req.file.mimetype){
-					case "image/jpeg":
-						var photocave = ".jpeg";
-						break;
-					case "image/png":
-						var photocave = ".png";
-						break;
-					case "image/gif":
-						var photocave = ".gif";
-						break;
-				}
-
-			var paramsGet = {
-			    TableName: table,
-			    Key:{
-			        "ID": caveId
+			        // continue scanning if we have more movies, because
+			        // scan can retrieve a maximum of 1MB of data
+			        if (typeof data.LastEvaluatedKey != "undefined") {
+			            console.log("Scanning for more...");
+			            params.ExclusiveStartKey = data.LastEvaluatedKey;
+			            docClient.scan(params, onScan);
+			        }
+			        res.render('macave', { sess: sess, data: data.Items });
 			    }
-			};
-
-
-	
-			docClient.get(paramsGet, function(err, data) {				//On récupère les donnée de la database
-				if (err) {
-					console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-					res.redirect('/');
-				} else {
-					console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-
-					console.log("Updating the item ...");
-
-					var params = {
-					    TableName: table,
-					    Key: {
-					        "ID": caveId
-					    },
-					    UpdateExpression: 											//Ne marche pas si la valeur est nulle
-					        "SET Lat = :lat, Lng = :lng, Formatted_address = :formatted_address, Caracteristiques = :caracteristiques, PhotoCave = :photocave",
-					    ExpressionAttributeValues: { 
-					        ":lat": lat,
-					        ":lng": lng,
-					        ":formatted_address": formatted_address,
-					        ":caracteristiques": caracteristiques,
-					        ":photocave": photocave
-					    },
-					    ReturnValues:"UPDATED_NEW"
-					};
-
-					docClient.update(params, function(err, data) {
-					    if (err) {
-					        console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
-							res.redirect('/');
-					    } else {
-					        console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
-							res.redirect('/compte/' + sess.login + '/mescaves');
-					    }
-					});
-
-				}
-
-			});
-			
+			}
 		}
 	}
 });
-
-
-// function isEmptyObject(obj) {
-//   return !Object.keys(obj).length;
-// };
 
 module.exports = router;

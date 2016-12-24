@@ -45,54 +45,7 @@ html
 
 		.container-fluid
 			.row(style='margin-top: 100px')
-				
-				form.col-lg-4.col-lg-offset-4(enctype='multipart/form-data', method='post', name='addCaveForm', onsubmit="validateForm()")
-					.form-group
-						#locationField
-							Label Adresse
-							input.form-control#autocomplete(placeholder='Enter your address', type='text', value='#{data.Formatted_address}')
-						input(type='hidden', name='lat', id='lat')
-						input(type='hidden', name='lng', id='lng')
-						input(type='hidden', name='formatted_address', id='formatted_address')
-					.form-group
-						label Caractéristiques
-						textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques') #{data.Caracteristiques}
-					.form-group
-						label Photo cave
-						input.form-control(type='file', name='photocave', id='photocave')
-					//- if data.PhotoCave != false
-						img(alt='photocave', src='/uploads/caves/' + sess.login + ".jpg")
-					input.btn.btn-default(type='submit', value='Ajouter')
-				script.
-					var autocomplete;
-					var formatted_address;
-
-					function initAutocomplete() {
-					  // Create the autocomplete object, restricting the search to geographical location types.
-					  autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')), {types: ['geocode']});
-					  autocomplete.addListener('place_changed', getLatLng);
-					}
-					function getLatLng() {
-					  // Get the place details from the autocomplete object.
-						var place = autocomplete.getPlace();
-
-						var lat = place.geometry.location.lat();
-						var lng = place.geometry.location.lng();
-						formatted_address =  place.formatted_address;
-
-						document.forms["addCaveForm"]["lat"].value = lat;
-						document.forms["addCaveForm"]["lng"].value = lng;
-						document.forms["addCaveForm"]["formatted_address"].value = formatted_address;
-						console.log("formatted_address : " + formatted_address);
-					}
-
-					function validateForm(){
-						console.log("formatted_address1 : " + formatted_address);
-						if (formatted_address == undefined) {
-							document.forms["addCaveForm"]["lat"].value = !{JSON.stringify(data.Lat)};
-							document.forms["addCaveForm"]["lng"].value = !{JSON.stringify(data.Lng)};
-							document.forms["addCaveForm"]["formatted_address"].value = !{JSON.stringify(data.Formatted_address)};
-						}	
-					}
-				
-				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB6pRj5oPTV3sni9BwcPDG7mca_Os9kprI&signed_in=true&libraries=places&callback=initAutocomplete')
+				each val in data
+					p #{val.Pseudo}
+					p #{val.Winery}
+					p #{val.Annee}
