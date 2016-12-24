@@ -49,6 +49,7 @@ html
 				
 				if data.Items != undefined
 					each val in data.Items
-						p Bouteille : #{val.ID}
+						p
+							a(href="/compte/#{sess.login}/mesvins/#{val.ID}") Bouteille : #{val.Winery}
 				else 
 					p Pas de bouteilles stockées

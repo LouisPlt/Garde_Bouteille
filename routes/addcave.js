@@ -91,7 +91,6 @@ router.post('/:log/addcave', upload.single('photocave'), function(req, res, next
 					res.redirect('/compte/' + sess.login + '/mescaves');
 			    }
 			});
-			
 		}
 	}
 });

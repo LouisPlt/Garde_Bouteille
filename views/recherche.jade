@@ -119,12 +119,13 @@ html
 							var myLatLng = {lat: Number(caves_list[i].Lat), lng: Number(caves_list[i].Lng)};
 							var marker = new google.maps.Marker({
 							    position: myLatLng,
-							    map: map,
-							    title: caves_list[i].Pseudo
+							    map: map
 							});
-							marker.addListener('click', function() {
-								document.location.href = "#{sess.login}/" + marker.title + "/addvins";
-							});
+							google.maps.event.addListener(marker, 'click', (function(marker, i) {
+								return function() {
+									document.location.href = "#{sess.login}/addvins/" + caves_list[i].ID;
+								}
+							})(marker, i));
 						}
 					}
 

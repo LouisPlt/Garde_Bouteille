@@ -20,7 +20,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 /* GET home page. */
-router.get('/:log/mescaves/:id', function(req, res, next) {
+router.get('/:log/mescaves/:caveId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
 		res.redirect('/');
@@ -30,11 +30,11 @@ router.get('/:log/mescaves/:id', function(req, res, next) {
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
 			var table = "Caves";
-			var id = req.params.id;
+			var caveId = req.params.caveId;
 			var params = {											//On initialise l'item recherché dans la database
 			    TableName: table,
 			    Key:{
-			        "ID": id
+			        "ID": caveId
 			    }
 			};
 
@@ -55,7 +55,7 @@ router.get('/:log/mescaves/:id', function(req, res, next) {
 });
 
 
-router.post('/:log/mescaves/:id', upload.single('photocave'), function(req, res, next) {					// Faire un test sur le format et les tailles
+router.post('/:log/mescaves/:caveId', upload.single('photocave'), function(req, res, next) {					// Faire un test sur le format et les tailles
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
 		res.redirect('/');
@@ -65,7 +65,7 @@ router.post('/:log/mescaves/:id', upload.single('photocave'), function(req, res,
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
 			var table = "Caves";
-			var id = req.params.id;
+			var caveId = req.params.caveId;
 			var pseudo = sess.login;
 			var lat = req.body.lat;
 			var lng = req.body.lng;
@@ -89,7 +89,7 @@ router.post('/:log/mescaves/:id', upload.single('photocave'), function(req, res,
 			var paramsGet = {
 			    TableName: table,
 			    Key:{
-			        "ID": id
+			        "ID": caveId
 			    }
 			};
 
@@ -107,7 +107,7 @@ router.post('/:log/mescaves/:id', upload.single('photocave'), function(req, res,
 					var params = {
 					    TableName: table,
 					    Key: {
-					        "ID": id
+					        "ID": caveId
 					    },
 					    UpdateExpression: 											//Ne marche pas si la valeur est nulle
 					        "SET Lat = :lat, Lng = :lng, Formatted_address = :formatted_address, Caracteristiques = :caracteristiques, PhotoCave = :photocave",
