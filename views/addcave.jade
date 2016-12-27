@@ -55,6 +55,23 @@ html
 						input(type='hidden', name='lng', id='lng')
 						input(type='hidden', name='formatted_address', id='formatted_address')
 					.form-group
+						label Catégorie 
+						select.form-control(name='categorie ', id='categorie')
+							option Électrique
+							option Enterrée
+					.form-group
+						label Capacité 
+						input.form-control(type='number', placeholder='Capacité', name='capacite', id='capacite')
+					.form-group
+						label Température °C
+						input.form-control(type='number', placeholder='Température', name='temperature', id='temperature')
+					.form-group
+						label Hygrométrie
+						input.form-control(placeholder='Hygrométrie', name='hygrometry', id='hygrometry')
+					.form-group
+						label Prix 
+						input.form-control(type='number', placeholder='Prix', name='prix', id='prix')
+					.form-group
 						label Caractéristiques
 						textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques')
 					.form-group
@@ -86,4 +103,4 @@ html
 						console.log("formatted_address : " + formatted_address);
 					}
 				
-				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB6pRj5oPTV3sni9BwcPDG7mca_Os9kprI&signed_in=true&libraries=places&callback=initAutocomplete')
+				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=#{process.env.APIKEY}&signed_in=true&libraries=places&callback=initAutocomplete')

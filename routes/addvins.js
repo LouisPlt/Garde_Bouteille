@@ -9,10 +9,10 @@ AWS.config.loadFromPath('./config.json');
 var sess;
 
 /* GET home page. */
-router.get('/:log/addvins/:caveId', function(req, res, next) {
+router.get('/:log/:caveId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
-
+			res.redirect('/');
 	} else {
 		if ( sess.type != "Oenophile") {
 			res.redirect('/');
@@ -20,14 +20,14 @@ router.get('/:log/addvins/:caveId', function(req, res, next) {
 			var docClient = new AWS.DynamoDB.DocumentClient();
 			var table = "Caves";
 			var caveId = req.params.caveId;
-			var params = {											//On initialise l'item recherché dans la database
+			var params = {
 			    TableName: table,
 			    Key:{
 			        "ID": caveId
 			    }
 			};
 
-			docClient.get(params, function(err, data) {				//On récupère les donnée de la database
+			docClient.get(params, function(err, data) {
 				if (err) {
 					console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
 					res.redirect('/');
@@ -42,7 +42,7 @@ router.get('/:log/addvins/:caveId', function(req, res, next) {
 
 
 
-router.post('/:log/addvins/:caveId', function(req, res, next) {
+router.post('/:log/:caveId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
 		res.redirect('/');
@@ -54,8 +54,14 @@ router.post('/:log/addvins/:caveId', function(req, res, next) {
 			var table = "Vins";
 			var id = uuidV4();
 			var pseudo = sess.login;
-			var winery = req.body.winery;
+			var bouteille = req.body.bouteille;
 			var annee = req.body.annee;
+			var categorie = req.body.categorie;
+			var appellation = req.body.appellation;
+			var region = req.body.region;
+			var vigneron = req.body.vigneron;
+			var assurance = req.body.assurance;
+			var caracteristiques = req.body.caracteristiques;
 			var caveId = req.params.caveId;			
 
 			var paramsAdd = {
@@ -63,8 +69,14 @@ router.post('/:log/addvins/:caveId', function(req, res, next) {
 			    Item:{
 			    	"ID": id,
 			        "Pseudo": pseudo,
-			        "Winery": winery,
+			        "Bouteille": bouteille,
 			        "Annee": annee,
+			        "Categorie": categorie,
+			        "Appellation": appellation,
+			        "Region": region,
+			        "Vigneron": vigneron,
+			        "Assurance": assurance,
+			        "Caracteristiques": caracteristiques,
 			        "CaveID": caveId		        
 			    }
 			};

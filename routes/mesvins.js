@@ -22,7 +22,7 @@ router.get('/:log/mesvins', function(req, res, next) {
 
 			var params = {
 			    TableName : table,
-				ProjectionExpression: "ID, Pseudo, Winery, Annee",
+				ProjectionExpression: "ID, Pseudo, Bouteille, Annee",
 			    FilterExpression: "Pseudo = :pseudo",
 			    ExpressionAttributeValues: {
 			         ":pseudo": pseudo
@@ -51,7 +51,7 @@ router.get('/:log/mesvins', function(req, res, next) {
 			            params.ExclusiveStartKey = data.LastEvaluatedKey;
 			            docClient.scan(params, onScan);
 			        }
-			        res.render('mesvins', { sess: sess, data: data });
+			        res.render('mesvins', { sess: sess, data: data.Items });
 			    }
 			}
 		}

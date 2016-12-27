@@ -50,7 +50,13 @@ router.post('/:log/addcave', upload.single('photocave'), function(req, res, next
 			var lat = req.body.lat;
 			var lng = req.body.lng;
 			var formatted_address = req.body.formatted_address;
+			var categorie = req.body.categorie;
+			var capacite = req.body.capacite;
+			var temperature = req.body.temperature;
+			var hygrometry = req.body.hygrometry;
+			var prix = req.body.prix;
 			var caracteristiques = req.body.caracteristiques;
+
 			if (req.file == undefined)
 				var photocave = false;
 			else
@@ -77,6 +83,11 @@ router.post('/:log/addcave', upload.single('photocave'), function(req, res, next
 			        "Formatted_address": formatted_address,
 			        "Lng": lng,
 			        "Lat": lat,
+			        "Categorie": categorie,
+			        "Capacite": capacite,
+			        "Temperature": temperature,
+			        "Hygrometrie": hygrometry,
+			        "Prix": prix,
 			        "Caracteristiques": caracteristiques,
 			        "PhotoCave": photocave
 			    }

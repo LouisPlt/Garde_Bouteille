@@ -35,7 +35,7 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 
 			var params = {
 			    TableName : table,
-				ProjectionExpression: "ID, Pseudo, Winery, Annee",
+				ProjectionExpression: "ID, Pseudo, Bouteille, Annee",
 			    FilterExpression: "CaveID = :caveId",
 			    ExpressionAttributeValues: {
 			         ":caveId": caveId
