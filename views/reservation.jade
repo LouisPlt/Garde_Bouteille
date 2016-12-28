@@ -43,14 +43,15 @@ html
 									a(href='#{sess.login}') Message
 								li
 									a(href='/compte/#{sess.login}/mesvins') Mes vins
+		.jumbotron
+			.container
+				.row(style='margin-top: 100px')
 
-		.container-fluid
-			.row(style='margin-top: 100px')
-
-				if data != ""
-					each val in data
-						p 
-							a(href="/compte/#{sess.login}/mesvins/#{val.ID}") Bouteille : #{val.Bouteille}
-				else 
-					p Pas de bouteilles stockées
-				a.btn.btn-primary(href="/addvins/#{sess.login}/#{reservationId}") Ajouter une bouteille
+					if data != ""
+						each val in data
+							.row
+								p.col-md-6	 #{val.Quantite} #{val.Bouteille}  #{val.Annee} 
+								a.col-md-6(href="/compte/#{sess.login}/mesvins/#{val.ID}") Editer
+					else 
+						p Pas de bouteilles stockées
+					a.btn.btn-primary(href="/addvins/#{sess.login}/#{reservationId}") Ajouter une bouteille

@@ -60,6 +60,7 @@ router.post('/:log/:reservationId', function(req, res, next) {
 			      "Bouteille": req.body.bouteille,
 			      "Annee": req.body.annee,
 			      "Categorie": req.body.categorie,
+						"Quantite" : req.body.quantite, 
 			      "Appellation": req.body.appellation,
 			      "Region": req.body.region,
 			      "Vigneron": req.body.vigneron,

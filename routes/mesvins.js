@@ -40,8 +40,7 @@ router.get('/:log/mesvins', function(req, res, next) {
 			        // print all the movies
 			        console.log("Scan succeeded.");
 			        data.Items.forEach(function(vin) {
-			           console.log(	
-			                vin.Pseudo + ": " + vin.ID);
+			           console.log(vin.Pseudo + ": " + vin.ID);
 			        });
 
 			        // continue scanning if we have more movies, because
