@@ -1,4 +1,4 @@
-doctype html
+	doctype html
 html
 	head
 		title
@@ -57,6 +57,8 @@ html
 				.form-group
 					label Pseudo
 					input.form-control(type='text', placeholder='Login', name='login', id='login', required="required")
+					if pseudo
+						p Utilisateur déjà existant
 				.form-group
 					label Password
 					input.form-control(type='password', placeholder='Password', name='password', id='password', required="required")
