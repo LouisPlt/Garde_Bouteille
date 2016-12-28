@@ -1,0 +1,56 @@
+doctype html
+html
+	head
+		title
+		meta(charset='utf-8')
+		link(rel='stylesheet', href='../../bootstrap/css/bootstrap.min.css')
+		link(rel='stylesheet', href='../../stylesheets/style.css')
+		script(src='../../jquery-1.12.4.min.js')
+		script(src='../../bootstrap/js/bootstrap.min.js')
+		//- Dossier pas le même que les autres, ne sais pas pk
+		title
+	body
+		nav.navbar.navbar-default.navbar-fixed-top
+			.container-fluid
+				.navbar-header
+					a.navbar-brand(href='#')
+						img(alt='Brand', src='../../images/logo.png')
+					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+				#bs-example-navbar-collapse-1.collapse.navbar-collapse
+					
+					input.btn.btn-default.navbar-right(type='button', value="Deconnexion", onclick="location.href='/deconnexion'", style='margin-left: 20px;margin-right: 20px;margin-top: 8px')
+					ul.nav.navbar-nav.navbar-right
+						li.active
+							a.nav-marging-item(href='/') Accueil
+						li
+							a.nav-margin-item(href='/recherche') Recherche
+						li
+							a.nav-marging-item(href='/') Contact
+						li.dropdown
+							a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') #{sess.login}
+								span.caret
+							ul.dropdown-menu
+								li
+									a(href='#{sess.login}') Informations
+								li
+									a(href='/compte/#{sess.login}') Compte
+								li.divider(role='separator')
+								li
+									a(href='#{sess.login}') Message
+								li
+									a(href='/compte/#{sess.login}/mesvins') Mes vins
+
+		.container-fluid
+			.row(style='margin-top: 100px')
+
+				if data != ""
+					each val in data
+						p 
+							a(href="/compte/#{sess.login}/mesvins/#{val.ID}") Bouteille : #{val.Bouteille}
+				else 
+					p Pas de bouteilles stockées
+				a.btn.btn-primary(href="/#{sess.login}/#{req.params.reservationId}")

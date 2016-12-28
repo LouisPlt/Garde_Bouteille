@@ -18,12 +18,10 @@ router.get('/:log/:caveId', function(req, res, next) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
-			var table = "Caves";
-			var caveId = req.params.caveId;
 			var params = {
-			    TableName: table,
+			    TableName: "Caves",
 			    Key:{
-			        "ID": caveId
+			        "ID": req.params.caveId
 			    }
 			};
 
@@ -42,7 +40,7 @@ router.get('/:log/:caveId', function(req, res, next) {
 
 
 
-router.post('/:log/:caveId', function(req, res, next) {
+router.post('/:log/:reservationId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
 		res.redirect('/');
@@ -53,31 +51,21 @@ router.post('/:log/:caveId', function(req, res, next) {
 			var docClient = new AWS.DynamoDB.DocumentClient();
 			var table = "Vins";
 			var id = uuidV4();
-			var pseudo = sess.login;
-			var bouteille = req.body.bouteille;
-			var annee = req.body.annee;
-			var categorie = req.body.categorie;
-			var appellation = req.body.appellation;
-			var region = req.body.region;
-			var vigneron = req.body.vigneron;
-			var assurance = req.body.assurance;
-			var caracteristiques = req.body.caracteristiques;
-			var caveId = req.params.caveId;			
 
 			var paramsAdd = {
-			    TableName: table,
+			    TableName: "Vins",
 			    Item:{
 			    	"ID": id,
-			        "Pseudo": pseudo,
-			        "Bouteille": bouteille,
-			        "Annee": annee,
-			        "Categorie": categorie,
-			        "Appellation": appellation,
-			        "Region": region,
-			        "Vigneron": vigneron,
-			        "Assurance": assurance,
-			        "Caracteristiques": caracteristiques,
-			        "CaveID": caveId		        
+			      "Pseudo": sess.login,
+			      "Bouteille": req.body.bouteille,
+			      "Annee": req.body.annee,
+			      "Categorie": req.body.categorie,
+			      "Appellation": req.body.appellation,
+			      "Region": req.body.region,
+			      "Vigneron": req.body.vigneron,
+			      "Assurance": req.body.assurance,
+			      "Caracteristiques": req.body.caracteristiques,
+			      "ReservationID": req.params.reservationId
 			    }
 			};
 
