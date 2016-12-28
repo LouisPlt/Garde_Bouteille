@@ -3,10 +3,10 @@ html
 	head
 		title
 		meta(charset='utf-8')
-		link(rel='stylesheet', href='../../bootstrap/css/bootstrap.min.css')
-		link(rel='stylesheet', href='../../stylesheets/style.css')
-		script(src='../../jquery-1.12.4.min.js')
-		script(src='../../bootstrap/js/bootstrap.min.js')
+		link(rel='stylesheet', href='../../../bootstrap/css/bootstrap.min.css')
+		link(rel='stylesheet', href='../../../stylesheets/style.css')
+		script(src='../../../jquery-1.12.4.min.js')
+		script(src='../../../bootstrap/js/bootstrap.min.js')
 		//- Dossier pas le même que les autres, ne sais pas pk
 		title
 	body
@@ -14,7 +14,7 @@ html
 			.container-fluid
 				.navbar-header
 					a.navbar-brand(href='#')
-						img(alt='Brand', src='../../images/logo.png')
+						img(alt='Brand', src='../../../	images/logo.png')
 					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
 						span.sr-only Toggle navigation
 						span.icon-bar
@@ -44,12 +44,10 @@ html
 								li
 									a(href='/compte/#{sess.login}/mesvins') Mes vins
 
+
 		.container-fluid
 			.row(style='margin-top: 100px')
+				each val in data
+					p #{val}
 
-				if data != ""
-					each val in data
-						p 
-							a(href="/compte/#{sess.login}/mesvins/#{val.ID}") Bouteille : #{val.Bouteille}
-				else 
-					p Pas de bouteilles stockées
+				p #{dataCave.Formatted_address}

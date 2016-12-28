@@ -5,9 +5,8 @@ var router = express.Router();
 
 AWS.config.loadFromPath('./config.json');
 
-var ses
+var sess;
 
-/* GET home page. */
 router.get('/:log', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
@@ -18,14 +17,14 @@ router.get('/:log', function(req, res, next) {
 		var table = "Users";
 		var pseudo = sess.login;
 
-		var params = {											//On initialise l'item recherché dans la database
+		var params = {
 		    TableName: table,
 		    Key:{
 		        "Pseudo": pseudo
 		    }
 		};
 
-		docClient.get(params, function(err, data) {				//On récupère les donnée de la database
+		docClient.get(params, function(err, data) {
 			if (err) {
 				console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
 				res.redirect('/');
@@ -53,7 +52,7 @@ router.post('/:log', function(req, res, next) {
 		    Key: {
 		        "Pseudo": pseudo
 		    },
-		    UpdateExpression: 											//Ne marche pas si la valeur est nulle
+		    UpdateExpression:
 		        "SET Gender = :gender, Firstname = :firstname, Lastname = :lastname, Birth = :birth, Email = :email, Phone = :phone",
 		    ExpressionAttributeValues: { 
 		    	":gender": req.body.gender,

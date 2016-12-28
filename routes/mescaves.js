@@ -1,27 +1,16 @@
 var express = require('express');
 var session = require('express-session');
-var multer = require('multer');
 var AWS = require('aws-sdk');
+const uuidV4 = require('uuid/v4');
 var router = express.Router();
 
 AWS.config.loadFromPath('./config.json');
 
 var sess;
 
-// var storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'uploads/caves')
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, sess.login)
-//   }
-// });
 
-// var upload = multer({ storage: storage });
-
-
-
-router.get('/:log/mescaves/:caveId', function(req, res, next) {
+/* GET home page. */
+router.get('/:log/mescaves', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
 		res.redirect('/');
@@ -30,19 +19,26 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
-			var table = "Vins";
-			var caveId = req.params.caveId;
+			var table = "Caves";
+			var pseudo = sess.login;
+
+			// var paramsGet = {
+			//     TableName: table,
+			//     Key:{
+			//         "Pseudo": pseudo
+			//     }
+			// };
 
 			var params = {
 			    TableName : table,
-				ProjectionExpression: "ID, Pseudo, Bouteille, Annee",
-			    FilterExpression: "CaveID = :caveId",
+				ProjectionExpression: "ID, Pseudo, Caracteristiques, Formatted_address, Lat, Lng",
+			    FilterExpression: "Pseudo = :pseudo",
 			    ExpressionAttributeValues: {
-			         ":caveId": caveId
+			         ":pseudo": pseudo
 			    }
 			};
 
-			console.log("Scanning vins table.");
+			console.log("Scanning caves table.");
 			docClient.scan(params, onScan);
 
 			function onScan(err, data) {
@@ -50,7 +46,6 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			        console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
 			        res.redirect('/');
 			    } else {
-			        // print all the movies
 			        console.log("Scan succeeded.");
 
 			        // continue scanning if we have more movies, because
@@ -60,11 +55,13 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			            params.ExclusiveStartKey = data.LastEvaluatedKey;
 			            docClient.scan(params, onScan);
 			        }
-			        res.render('macave', { sess: sess, data: data.Items });
+			        res.render('mescaves', { sess: sess, data: data.Items });
 			    }
 			}
 		}
 	}
 });
+
+
 
 module.exports = router;

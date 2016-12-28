@@ -8,7 +8,7 @@ var sess;
 router.get('/', function(req, res, next) {
 	sess = req.session;
 	console.log("sess.login : " + sess.login);
-  res.render('', { sess: sess });
+	res.render('', { sess: sess });
 });
 
 module.exports = router;
