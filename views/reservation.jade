@@ -53,4 +53,4 @@ html
 							a(href="/compte/#{sess.login}/mesvins/#{val.ID}") Bouteille : #{val.Bouteille}
 				else 
 					p Pas de bouteilles stockées
-				a.btn.btn-primary(href="/#{sess.login}/#{req.params.reservationId}")
+				a.btn.btn-primary(href="/addvins/#{sess.login}/#{reservationId}") Ajouter une bouteille

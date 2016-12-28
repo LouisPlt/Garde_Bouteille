@@ -39,7 +39,7 @@ router.get('/:log/:reservationId', function(req, res, next) {
                   params.ExclusiveStartKey = data.LastEvaluatedKey;
                   docClient.scan(params, onScan);
               }
-              res.render('reservation', { sess: sess, data: data.Items });
+              res.render('reservation', { sess: sess, data: data.Items, reservationId: req.params.reservationId });
           }
       }
 		}

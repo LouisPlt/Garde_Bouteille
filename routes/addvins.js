@@ -9,7 +9,7 @@ AWS.config.loadFromPath('./config.json');
 var sess;
 
 /* GET home page. */
-router.get('/:log/:caveId', function(req, res, next) {
+router.get('/:log/:reservationId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
 			res.redirect('/');
@@ -19,9 +19,9 @@ router.get('/:log/:caveId', function(req, res, next) {
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
 			var params = {
-			    TableName: "Caves",
+			    TableName: "Reservations",
 			    Key:{
-			        "ID": req.params.caveId
+			        "ID": req.params.reservationId
 			    }
 			};
 
@@ -76,7 +76,7 @@ router.post('/:log/:reservationId', function(req, res, next) {
 					res.redirect('/');
 			    } else {
 			        console.log("Added item:", JSON.stringify(data, null, 2));
-					res.redirect('/compte/' + sess.login + '/mesvins');
+					res.redirect('/reservation/' + sess.login + '/'+req.params.reservationId);
 			    }
 			});
 		}
