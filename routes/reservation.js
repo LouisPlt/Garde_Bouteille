@@ -19,7 +19,7 @@ router.get('/:log/:reservationId', function(req, res, next) {
 			var docClient = new AWS.DynamoDB.DocumentClient();
       var params = {
         TableName : "Vins",
-        ProjectionExpression: "ID, Bouteille, Annee",
+        ProjectionExpression: "ID, Bouteille, Annee, Quantite",
           FilterExpression: "ReservationID = :reservationid",
           ExpressionAttributeValues: {
                ":reservationid" : req.params.reservationId
@@ -39,6 +39,8 @@ router.get('/:log/:reservationId', function(req, res, next) {
                   params.ExclusiveStartKey = data.LastEvaluatedKey;
                   docClient.scan(params, onScan);
               }
+							console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+
               res.render('reservation', { sess: sess, data: data.Items, reservationId: req.params.reservationId });
           }
       }
@@ -62,6 +64,7 @@ router.post('/:log/cave/:caveId', function(req, res, next) {
           Item:{
             "ID": id,
             "CaveID": req.params.caveId,
+						"Etat" : "Initié"
           }
       };
 
@@ -79,4 +82,45 @@ router.post('/:log/cave/:caveId', function(req, res, next) {
   }
 
 });
+
+// router.get('/:log/:reservationId', function(req, res, next) {
+// 	sess = req.session;
+// 	if ( sess.login != req.params.log ) {
+// 			res.redirect('/');
+// 	} else {
+// 		if ( sess.type != "Oenophile") {
+// 			res.redirect('/');
+// 		} else {
+// 			var docClient = new AWS.DynamoDB.DocumentClient();
+//       var params = {
+//         TableName : "Vins",
+//         ProjectionExpression: "ID, Bouteille, Annee, Quantite",
+//           FilterExpression: "ReservationID = :reservationid",
+//           ExpressionAttributeValues: {
+//                ":reservationid" : req.params.reservationId
+//           }
+//       };
+//       console.log("Scanning vins table.");
+//       docClient.scan(params, onScan);
+//
+//       function onScan(err, data) {
+//           if (err) {
+//               console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+//               res.redirect('/');
+//           } else {
+//               console.log("Scan succeeded.");
+//               if (typeof data.LastEvaluatedKey != "undefined") {
+//                   console.log("Scanning for more...");
+//                   params.ExclusiveStartKey = data.LastEvaluatedKey;
+//                   docClient.scan(params, onScan);
+//               }
+// 							console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+//
+//               res.render('reservation', { sess: sess, data: data.Items, reservationId: req.params.reservationId });
+//           }
+//       }
+// 		}
+// 	}
+// });
+
 module.exports = router;

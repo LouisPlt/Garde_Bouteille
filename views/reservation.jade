@@ -48,10 +48,21 @@ html
 				.row(style='margin-top: 100px')
 
 					if data != ""
+						script.
+							var number_of_bottles = 0;
 						each val in data
 							.row
 								p.col-md-6	 #{val.Quantite} #{val.Bouteille} de #{val.Annee} 
-								a.col-md-6(href="/compte/#{sess.login}/mesvins/#{val.ID}") Editer
+								script.
+									number_of_bottles += #{val.Quantite};
+								a.col-md-3(href="/compte/#{sess.login}/mesvins/#{val.ID}") Editer
+								a.col-md-3(href='/') Supprimer
+						script.
+							document.write("<p><br>Total de "+number_of_bottles+" bouteilles.</p>")
+						//- form.col-md-6 (method='post', name='startReservation', action="/reservation/#{sess.login}/#{reservationId}")
+						//- 	button(name="foo" value="upvote")Upvote
 					else 
 						p Pas de bouteilles stockées
 					a.btn.btn-primary(href="/addvins/#{sess.login}/#{reservationId}") Ajouter une bouteille
+					
+					

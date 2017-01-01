@@ -82,26 +82,64 @@ router.get('/:log/mesvins/:vinId', function(req, res, next) {
 					if (data.Item.Pseudo != sess.login)
 						res.redirect('/');
 					else {
-						res.render('addvins',{ sess: sess, data: data.Item, reservationID: data.Item.ReservationID});
-
-
-						// var docClientCave = new AWS.DynamoDB.DocumentClient();
-						// var paramsCave = {
-						//     TableName: "Caves",
-						//     Key:{
-						//         "ID": data.Item.CaveID
-						//     }
-						// };
-						//
-						// docClientCave.get(paramsCave, function(err, dataCave) {				//On récupère les donnée de la database
-						// 	if (err) {
-						// 		console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-						// 		res.redirect('/');
-						// 	} else {
-						// 		res.render('descriptionvin',  { sess: sess, data: data.Item, dataCave : dataCave.Item});
-						// 	}
-						// });
+						res.render('updatemonvin',{ sess: sess, data: data.Item, vinId: data.Item.ID});
 					}
+				}
+			});
+		}
+	}
+});
+
+router.post('/:log/mesvins/:vinId', function(req, res, next) {
+	sess = req.session;
+	if ( sess.login != req.params.log ) {
+		res.redirect('/');
+	} else {
+		if ( sess.type != "Oenophile") {
+			res.redirect('/');
+		} else {
+			var docClient = new AWS.DynamoDB.DocumentClient();
+			var params = {
+					TableName: "Vins",
+					Key: {
+							"ID": req.params.vinId
+					},
+					UpdateExpression:
+					" SET Bouteille = :bouteille, Annee = :annee, Categorie = :categorie, Quantite = :quantite, Appellation = :appellation, Localite = :localite, Vigneron = :vigneron, Caracteristiques = :caracteristiques",
+					ExpressionAttributeValues: {
+						":bouteille": req.body.bouteille,
+						":annee": req.body.annee,
+						":categorie": req.body.categorie,
+						":quantite" : req.body.quantite,
+						":appellation": req.body.appellation,
+						":localite": req.body.localite,
+						":vigneron": req.body.vigneron,
+						":caracteristiques": req.body.caracteristiques
+					},
+					ReturnValues:"UPDATED_NEW"
+			};
+			docClient.update(params, function(err, data) {
+				if (err) {
+					console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+					res.redirect('/');
+				} else {
+					console.log("GetItem updated:", JSON.stringify(data, null, 2));
+
+					var params = {											//On initialise l'item recherché dans la database
+					    TableName: "Vins",
+					    Key:{
+					        "ID": req.params.vinId
+					    }
+					};
+					docClient.get(params, function(err, data) {				//On récupère les donnée de la database				//REFAIRE !!!!!!!!!!!!!!
+						if (err) {
+							console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+							res.redirect('/');
+						} else {
+							console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+							res.redirect("/reservation/"+sess.login+"/"+data.Item.ReservationID)
+						}
+					});
 				}
 			});
 		}
