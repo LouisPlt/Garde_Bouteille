@@ -66,16 +66,14 @@ router.get('/:log/mesvins/:vinId', function(req, res, next) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
-			var table = "Vins";
-			var vinId = req.params.vinId;
-			var params = {											//On initialise l'item recherché dans la database
-			    TableName: table,
+			var params = {
+			    TableName: "Vins",
 			    Key:{
-			        "ID": vinId
+			        "ID": req.params.vinId
 			    }
 			};
 
-			docClient.get(params, function(err, data) {				//On récupère les donnée de la database
+			docClient.get(params, function(err, data) {
 				if (err) {
 					console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
 					res.redirect('/');
@@ -84,23 +82,25 @@ router.get('/:log/mesvins/:vinId', function(req, res, next) {
 					if (data.Item.Pseudo != sess.login)
 						res.redirect('/');
 					else {
-						var docClientCave = new AWS.DynamoDB.DocumentClient();
-						var tableCave = "Caves";
-						var paramsCave = {
-						    TableName: tableCave,
-						    Key:{
-						        "ID": data.Item.CaveID
-						    }
-						};
+						res.render('addvins',{ sess: sess, data: data.Item, reservationID: data.Item.ReservationID});
 
-						docClientCave.get(paramsCave, function(err, dataCave) {				//On récupère les donnée de la database
-							if (err) {
-								console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-								res.redirect('/');
-							} else {
-								res.render('descriptionvin',  { sess: sess, data: data.Item, dataCave : dataCave.Item});
-							}
-						});
+
+						// var docClientCave = new AWS.DynamoDB.DocumentClient();
+						// var paramsCave = {
+						//     TableName: "Caves",
+						//     Key:{
+						//         "ID": data.Item.CaveID
+						//     }
+						// };
+						//
+						// docClientCave.get(paramsCave, function(err, dataCave) {				//On récupère les donnée de la database
+						// 	if (err) {
+						// 		console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+						// 		res.redirect('/');
+						// 	} else {
+						// 		res.render('descriptionvin',  { sess: sess, data: data.Item, dataCave : dataCave.Item});
+						// 	}
+						// });
 					}
 				}
 			});

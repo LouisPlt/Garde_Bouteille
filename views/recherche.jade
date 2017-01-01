@@ -119,7 +119,7 @@ html
 								return function() {
 										data = {};
 										data.session = "#{sess}";
-										$.post("reservation/#{sess.login}/"+caves_list[i].ID, data, 
+										$.post("reservation/#{sess.login}/cave/"+caves_list[i].ID, data, 
 										function(response){
 											document.location.href = response;
 						    	});

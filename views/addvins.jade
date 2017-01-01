@@ -6,7 +6,7 @@ html
 		link(rel='stylesheet', href='../../bootstrap/css/bootstrap.min.css')
 		link(rel='stylesheet', href='../../stylesheets/style.css')
 		script(src='../../jquery-1.12.4.min.js')
-		script(src='../../bootstrap/js/bootstrap.min.js')
+		script(src='../public/bootstrap/js/bootstrap.min.js')
 		//- Dossier pas le même que les autres, ne sais pas pk
 		title
 	body
@@ -48,29 +48,22 @@ html
 			.row(style='margin-top: 100px')
 				
 
-				form.col-lg-4.col-lg-offset-4(method='post', name='addVinForm')
-					.form-group
-						#locationField
-							Label Adresse
-							input.form-control#autocomplete(placeholder='Enter your address', type='text')
-						input(type='hidden', name='lat', id='lat')
-						input(type='hidden', name='lng', id='lng')
-						input(type='hidden', name='formatted_address', id='formatted_address')
+				form.col-lg-4.col-lg-offset-4(method='post', name='addVinsForm', action="/addvins/#{sess.login}/#{reservationID}")
 					.form-group
 						label Nom de la bouteille
-						input.form-control(placeholder='Nom de la bouteille', name='bouteille', id='bouteille')
+						input.form-control(placeholder='Nom de la bouteille', name='bouteille', id='bouteille', value="#{data ? data.Bouteille : ''}")
 					.form-group
 						label Millésime
-						input.form-control(placeholder='Millésime', name='annee', id='annee')
+						input.form-control(placeholder='Millésime', name='annee', id='annee', value="#{data ? data.Annee : ''}")
 					.form-group
 						label Catégorie
-						input.form-control(placeholder='Catégorie', name='categorie', id='categorie')
+						input.form-control(placeholder='Catégorie', name='categorie', id='categorie', value="#{data ? data.Categorie : ''}")
 					.form-group
 						label Appellation
-						input.form-control(placeholder='Appellation', name='appellation', id='appellation')
+						input.form-control(placeholder='Appellation', name='appellation', id='appellation', value="#{data ? data.Appellation : ''}")
 					.form-group
 						label Region Viticole
-						input.form-control(list='domaines', 	placeholder='Region Viticole', name='region', id='region')
+						input.form-control(list='domaines', 	placeholder='Region Viticole', name='region', id='region', value="#{data ? data.Region : ''}")
 						datalist#domaines
 							option(value='Alsace')
 							option(value='Beaujolais')
@@ -87,7 +80,7 @@ html
 							option(value='Viticoleallée du Rhône')
 					.form-group
 						label Vigneron
-						input.form-control(placeholder='Vigneron', name='vigneron', id='vigneron')
+						input.form-control(placeholder='Vigneron', name='vigneron', id='vigneron', value="#{data ? data.Vigneron : ''}")
 					.form-group
 						label Assurance
 						select.form-control(name='assurance ', id='assurance ')
@@ -95,32 +88,32 @@ html
 							option A completer
 					.form-group
 						label Quantité
-						input.form-control(placeholder='Quantité', name='quantite', id='quantite')
+						input.form-control(placeholder='Quantité', name='quantite', id='quantite', value="#{data ? data.Quantite : ''}")
 					.form-group
 						label Caractéristiques
-						textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques')
-					input.btn.btn-default(type='submit', value='Ajouter')
+						textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques', value="#{data ? data.Caracteristiques : ''}")
+					input.btn.btn-default(type='submit', value='Valider')
 
-				script.
-					var autocomplete;
-					var formatted_address;
-
-					function initAutocomplete() {
-					  // Create the autocomplete object, restricting the search to geographical location types.
-					  autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')), {types: ['geocode']});
-					  autocomplete.addListener('place_changed', getLatLng);
-					}
-					function getLatLng() {
-					  // Get the place details from the autocomplete object.
-						var place = autocomplete.getPlace();
-
-						var lat = place.geometry.location.lat();
-						var lng = place.geometry.location.lng();
-						formatted_address =  place.formatted_address;
-
-						document.forms["addCaveForm"]["lat"].value = lat;
-						document.forms["addCaveForm"]["lng"].value = lng;
-						document.forms["addCaveForm"]["formatted_address"].value = formatted_address;
-					}
-				
-				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=#{process.env.APIKEY}&signed_in=true&libraries=places&callback=initAutocomplete')
+				//- script.
+				//- 	var autocomplete;
+				//- 	var formatted_address;
+				//- 
+				//- 	function initAutocomplete() {
+				//- 	  // Create the autocomplete object, restricting the search to geographical location types.
+				//- 	  autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')), {types: ['geocode']});
+				//- 	  autocomplete.addListener('place_changed', getLatLng);
+				//- 	}
+				//- 	function getLatLng() {
+				//- 	  // Get the place details from the autocomplete object.
+				//- 		var place = autocomplete.getPlace();
+				//- 
+				//- 		var lat = place.geometry.location.lat();
+				//- 		var lng = place.geometry.location.lng();
+				//- 		formatted_address =  place.formatted_address;
+				//- 
+				//- 		document.forms["addCaveForm"]["lat"].value = lat;
+				//- 		document.forms["addCaveForm"]["lng"].value = lng;
+				//- 		document.forms["addCaveForm"]["formatted_address"].value = formatted_address;
+				//- 	}
+				//- 
+				//- script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=#{process.env.APIKEY}&signed_in=true&libraries=places&callback=initAutocomplete')

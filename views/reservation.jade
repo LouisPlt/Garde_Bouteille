@@ -50,7 +50,7 @@ html
 					if data != ""
 						each val in data
 							.row
-								p.col-md-6	 #{val.Quantite} #{val.Bouteille}  #{val.Annee} 
+								p.col-md-6	 #{val.Quantite} #{val.Bouteille} de #{val.Annee} 
 								a.col-md-6(href="/compte/#{sess.login}/mesvins/#{val.ID}") Editer
 					else 
 						p Pas de bouteilles stockées

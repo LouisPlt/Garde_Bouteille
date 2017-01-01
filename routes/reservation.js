@@ -46,7 +46,7 @@ router.get('/:log/:reservationId', function(req, res, next) {
 	}
 });
 
-router.post('/:log/:caveId', function(req, res, next) {
+router.post('/:log/cave/:caveId', function(req, res, next) {
   sess = req.session;
   if ( sess.login != req.params.log ) {
     res.send('/');
