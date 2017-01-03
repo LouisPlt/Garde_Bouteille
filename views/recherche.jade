@@ -1,0 +1,128 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		link(rel='stylesheet', href='../../bootstrap/css/bootstrap.min.css')
+		link(rel='stylesheet', href='../../stylesheets/style.css')
+		script(src='../../jquery-1.12.4.min.js')
+		script(src='../../bootstrap/js/bootstrap.min.js')
+		
+	body
+		nav.navbar.navbar-default.navbar-fixed-top
+			.container-fluid
+				.navbar-header
+					a.navbar-brand(href='#')
+						img(alt='Brand', src='../../images/logo.png')
+					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+				#bs-example-navbar-collapse-1.collapse.navbar-collapse
+					
+					input.btn.btn-default.navbar-right(type='button', value="Deconnexion", onclick="location.href='/deconnexion'", style='margin-left: 20px;margin-right: 20px;margin-top: 8px')
+					ul.nav.navbar-nav.navbar-right
+						li.active
+							a.nav-marging-item(href='/') Accueil
+						if sess.type == "Oenophile"
+							li
+								a.nav-margin-item(href='/recherche') Recherche
+						li
+							a.nav-marging-item(href='/') Contact
+						li.dropdown
+							a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') #{sess.login}
+								span.caret
+							ul.dropdown-menu
+								li
+									a(href='#{sess.login}') Informations
+								li
+									a(href='/compte/#{sess.login}') Compte
+								li.divider(role='separator')
+								li
+									a(href='#{sess.login}') Message
+								li
+									a(href='/compte/#{sess.login}/mesvins') Mes vins
+
+		.container-fluid
+			.row(style='margin-top: 100px')
+				input#pac-input.controls(type='text', placeholder='Enter a location')
+				#map
+
+			.row
+				table(class='table table-bordered table-striped table-hover', id='storeTable')
+					tr
+						th Caviste
+						th Adresse
+						th Caracteristiques
+					each val in caves.Items
+						tr#test(data-content='Popover with data-trigger', rel='popover', data-placement='top', data-original-title='Title', data-trigger='hover')
+							th #{val.Pseudo}
+							th #{val.Formatted_address}
+							th #{val.Caracteristiques}
+
+				script.
+					$('#test').popover();
+					function initMap() {
+						var map = new google.maps.Map(document.getElementById('map'), {
+							center: {lat: 48.8557, lng: 2.3450},
+							zoom: 12
+						});
+						var input = (document.getElementById('pac-input'));
+						map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+						var autocomplete = new google.maps.places.Autocomplete(input);
+						autocomplete.bindTo('bounds', map);
+						var infowindow = new google.maps.InfoWindow();
+						var marker = new google.maps.Marker({
+							map: map,
+							anchorPoint: new google.maps.Point(0, -29)
+						});
+						autocomplete.addListener('place_changed', function() {
+							infowindow.close();
+							marker.setVisible(false);
+							var place = autocomplete.getPlace();
+							if (!place.geometry) {
+								window.alert("Autocomplete's returned place contains no geometry");
+								return;
+							}
+							// If the place has a geometry, then present it on a map.
+							if (place.geometry.viewport) {
+								map.fitBounds(place.geometry.viewport);
+							} else {
+								map.setCenter(place.geometry.location);
+								map.setZoom(17); 
+							}
+							marker.setPosition(place.geometry.location);
+							marker.setVisible(true);
+							var address = '';
+							if (place.address_components) {
+								address = [
+								(place.address_components[0] && place.address_components[0].short_name || ''),
+								(place.address_components[1] && place.address_components[1].short_name || ''),
+								(place.address_components[2] && place.address_components[2].short_name || '')
+								].join(' ');
+							}
+						});
+						addMarker(map)
+					}
+
+					function addMarker(map) {
+						var caves_list = !{JSON.stringify(caves.Items)};
+
+						//-			Change color marker
+						//- var pinColor = "AFAE8B";
+						//- var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+						//- 	new google.maps.Size(21, 34),
+						//- 	new google.maps.Point(0,0),
+						//- 	new google.maps.Point(10, 34));
+						
+						for ( var i = 0 ; i < caves_list.length ; i++) {
+							var myLatLng = {lat: Number(caves_list[i].Lat), lng: Number(caves_list[i].Lng)};
+							var marker = new google.maps.Marker({
+							    position: myLatLng,
+							    map: map
+							});
+						}
+					}
+					window.onload = initMap;
+
+				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=#{process.env.APIKEY}&signed_in=true&libraries=places')
