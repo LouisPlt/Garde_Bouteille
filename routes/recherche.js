@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 
 	var params = {
 	    TableName : table,
-		ProjectionExpression: "Caracteristiques, Pseudo, Formatted_address, Lat, Lng"
+		ProjectionExpression: "ID, Caracteristiques, Pseudo, Formatted_address, Lat, Lng"
 	};
 
 	console.log("Scanning Movies table.");

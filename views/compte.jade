@@ -44,7 +44,7 @@ html
 									a(href='#{sess.login}') Message
 								if sess.type == "Caviste"
 									li
-										a(href='macave') Ma cave
+										a(href='/compte/#{sess.login}/mescaves') Ma cave
 								else
 									li
 										a(href='/compte/#{sess.login}/mesvins') Mes vins

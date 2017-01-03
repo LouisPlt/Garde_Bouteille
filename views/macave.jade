@@ -3,10 +3,10 @@ html
 	head
 		title
 		meta(charset='utf-8')
-		link(rel='stylesheet', href='../../bootstrap/css/bootstrap.min.css')
-		link(rel='stylesheet', href='../../stylesheets/style.css')
-		script(src='../../jquery-1.12.4.min.js')
-		script(src='../../bootstrap/js/bootstrap.min.js')
+		link(rel='stylesheet', href='../../../bootstrap/css/bootstrap.min.css')
+		link(rel='stylesheet', href='../../../stylesheets/style.css')
+		script(src='../../../jquery-1.12.4.min.js')
+		script(src='../../../bootstrap/js/bootstrap.min.js')
 
 		//- Dossier pas le même que les autres, ne sais pas pk
 		title
@@ -15,7 +15,7 @@ html
 			.container-fluid
 				.navbar-header
 					a.navbar-brand(href='#')
-						img(alt='Brand', src='../../images/logo.png')
+						img(alt='Brand', src='../../../images/logo.png')
 					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
 						span.sr-only Toggle navigation
 						span.icon-bar
@@ -41,64 +41,11 @@ html
 								li
 									a(href='#{sess.login}') Message
 								li
-									a(href='/compte/#{sess.login}/macave') Ma cave
+									a(href='/compte/#{sess.login}/mescaves') Ma cave
 
 		.container-fluid
 			.row(style='margin-top: 100px')
-				
-				form.col-lg-4.col-lg-offset-4(enctype='multipart/form-data', method='post', name='addCaveForm', action='macave')
-					if data.Item != undefined
-						.form-group
-							#locationField
-								Label Adresse
-								input.form-control#autocomplete(placeholder='Enter your address', type='text', value='#{data.Item.Formatted_address}')
-							input(type='hidden', name='lat', id='lat')
-							input(type='hidden', name='lng', id='lng')
-							input(type='hidden', name='formatted_address', id='formatted_address')
-						.form-group
-							label Caractéristiques
-							textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques') #{data.Item.Caracteristiques}
-						.form-group
-							label Photo cave
-							input.form-control(type='file', name='photocave', id='photocave')
-						//- if data.Item.PhotoCave != false
-							img(alt='photocave', src='/uploads/caves/' + sess.login + ".jpg")
-						input.btn.btn-default(type='submit', value='Ajouter')
-					else
-						.form-group
-							#locationField
-								Label Adresse
-								input.form-control#autocomplete(placeholder='Enter your address' type='text')
-							input(type='hidden', name='lat', id='lat')
-							input(type='hidden', name='lng', id='lng')
-							input(type='hidden', name='formatted_address', id='formatted_address')
-						.form-group
-							label Caractéristiques
-							textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques')
-						.form-group
-							label Photo cave
-							input.form-control(type='file', name='photocave', id='photocave')
-						input.btn.btn-default(type='submit', value='Ajouter')
-				
-				script.
-					var autocomplete;
-
-					function initAutocomplete() {
-					  // Create the autocomplete object, restricting the search to geographical location types.
-					  autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')), {types: ['geocode']});
-					  autocomplete.addListener('place_changed', getLatLng);
-					}
-					function getLatLng() {
-					  // Get the place details from the autocomplete object.
-						var place = autocomplete.getPlace();
-
-						var lat = place.geometry.location.lat();
-						var lng = place.geometry.location.lng();
-						var formatted_address =  place.formatted_address;
-
-						document.forms["addCaveForm"]["lat"].value = lat;
-						document.forms["addCaveForm"]["lng"].value = lng;
-						document.forms["addCaveForm"]["formatted_address"].value = formatted_address;
-					}
-				
-				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB6pRj5oPTV3sni9BwcPDG7mca_Os9kprI&signed_in=true&libraries=places&callback=initAutocomplete')
+				each val in data
+					p #{val.Pseudo}
+					p #{val.Bouteille}
+					p #{val.Annee}
