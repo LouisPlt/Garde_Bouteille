@@ -17,8 +17,41 @@ router.get('/:log/:reservationId', function(req, res, next) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
+      var params = {	TableName: "Reservations",
+				Key: {
+						"ID": req.params.reservationId
+				},
+				UpdateExpression:
+				" SET Etat = :etat"
+				ExpressionAttributeValues: {
+					":etat": "En attente"
+				},
+				ReturnValues:"UPDATED_NEW"
+			};
+		docClient.update(params, function(err, data) {
+      if (err) {
+          console.error("Unable to update the table. Error JSON:", JSON.stringify(err, null, 2));
+          res.redirect('/');
+      } else {
+          console.log("Update succeeded.");
+          res.render('/');
+      }
+		});
+		}
+	}
+});
+
+router.post('/:log/:reservationId', function(req, res, next) {
+	sess = req.session;
+	if ( sess.login != req.params.log ) {
+			res.redirect('/');
+	} else {
+		if ( sess.type != "Oenophile") {
+			res.redirect('/');
+		} else {
+			var docClient = new AWS.DynamoDB.DocumentClient();
       var params = {
-        TableName : "Vins",
+        TableName : "Reservations",
         ProjectionExpression: "ID, Bouteille, Annee, Quantite",
           FilterExpression: "ReservationID = :reservationid",
           ExpressionAttributeValues: {

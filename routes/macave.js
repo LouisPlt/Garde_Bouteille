@@ -31,14 +31,18 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
 			var table = "Vins";
-			var caveId = req.params.caveId;
 
-			var params = {
-			    TableName : table,
+			var paramsReservation{
+					TableName : "Reservations", "Pseudo",
+					ProjectionExpression :
+			}
+
+			var paramsVin = {
+			    TableName : "Vins",
 				ProjectionExpression: "ID, Pseudo, Bouteille, Annee",
 			    FilterExpression: "CaveID = :caveId",
 			    ExpressionAttributeValues: {
-			         ":caveId": caveId
+			         ":caveId": req.params.caveId
 			    }
 			};
 
@@ -50,7 +54,6 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			        console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
 			        res.redirect('/');
 			    } else {
-			        // print all the movies
 			        console.log("Scan succeeded.");
 
 			        // continue scanning if we have more movies, because
