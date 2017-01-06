@@ -96,6 +96,7 @@ router.post('/:log/cave/:caveId', function(req, res, next) {
           TableName: "Reservations",
           Item:{
             "ID": id,
+						"Pseudo": sess.login,
             "CaveID": req.params.caveId,
 						"Etat" : "Initié"
           }
