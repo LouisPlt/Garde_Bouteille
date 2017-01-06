@@ -1,5 +1,5 @@
 .brand Garde Bou'teille
-.address-bar 30-32 Avenue de la République | Villejuif 75005 | 867-5309
+.address-bar 30-32 Avenue de la République | Villejuif 94067 | 867-5309
 // Navigation
 nav.navbar.navbar-default(role='navigation')
   .container
@@ -18,21 +18,29 @@ nav.navbar.navbar-default(role='navigation')
         li
           a(href='/') Home
         li
-          a(href='about') About
+          a(href='/about') About
         li
-          a(href='contact') Contact
-        li
-          a(href='mesvins') Mes Vins
-        li
-          a(href='deconnexion') Déconnexion
-        li
-          a(href='mescaves') Mes Caves
-        li
-          a(href='deconnexion') Déconnexion
+          a(href='/contact') Contact
+        if sess != undefined
+          if sess.type == "Oenophile"
+            li
+              a(href='/Compte/#{sess.login}/mesvins') Mes Vins
+            li
+              a(href='/profil') Mon Profil
+            li
+              a(href='/deconnexion') Déconnexion (#{sess.login})
+          else if sess.type == "Caviste"
+            li
+              a(href='/mescaves') Mes Caves
+            li
+              a(href='/profil') Mon Profil
+            li
+              a(href='/deconnexion') Déconnexion (#{sess.login})
+        else
+          li
+            a(href='/inscription') Inscription 
+          li
+            a(href='/connexion') Connexion
 
-        li
-          a(href='connexion') Login
-        li
-          a(href='inscription') Inscription
 
     // /.navbar-collapse
