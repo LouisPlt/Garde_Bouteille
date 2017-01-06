@@ -14,13 +14,10 @@ router.get('/', function(req, res, next) {
 	var docClient = new AWS.DynamoDB.DocumentClient();
 	var table = "Caves";
 	var pseudo = sess.login;
-
 	var params = {
 	    TableName : table,
 		ProjectionExpression: "ID, Caracteristiques, Pseudo, Formatted_address, Lat, Lng"
 	};
-
-	console.log("Scanning Movies table.");
 	docClient.scan(params, onScan);
 
 	function onScan(err, data) {

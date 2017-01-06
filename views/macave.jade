@@ -4,7 +4,10 @@ block content
 		.box
 			.row
 				.col-lg-12
-					each val in data
-						p #{val.Pseudo}
-						p #{val.Bouteille}
-						p #{val.Annee}
+					each reservation in data
+						h3 Reservation de #{reservation.Pseudo}
+						h4 Etat: #{reservation.Etat}
+						if reservation.vins != undefined
+							ul
+								each vin in reservation.vins
+									li #{vin.Quantite} #{vin.Bouteille} de #{vin.Annee}
