@@ -59,10 +59,12 @@ html
 								a.col-md-3(href='/') Supprimer
 						script.
 							document.write("<p><br>Total de "+number_of_bottles+" bouteilles.</p>")
-						form.col-md-6 (method='post', name='startReservation', action="/reservation/#{sess.login}/#{reservationId}")
-						 	button.btn.btn-primary(name="validate")Valider
 					else 
 						p Pas de bouteilles stockées
 					a.btn.btn-primary(href="/addvins/#{sess.login}/#{reservationId}") Ajouter une bouteille
+					br
+					br
+					form.col-md-12(style="text-align:center")(method='post', name='startReservation', action="/reservation/#{sess.login}/#{reservationId}")
+						button.btn.btn-primary(name="validate") Valider
 					
 					

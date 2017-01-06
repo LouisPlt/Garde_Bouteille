@@ -8,7 +8,7 @@ AWS.config.loadFromPath('./config.json');
 
 var sess;
 
-router.get('/:log/:reservationId', function(req, res, next) {
+router.post('/:log/:reservationId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
 			res.redirect('/');
@@ -21,8 +21,7 @@ router.get('/:log/:reservationId', function(req, res, next) {
 				Key: {
 						"ID": req.params.reservationId
 				},
-				UpdateExpression:
-				" SET Etat = :etat"
+				UpdateExpression: " SET Etat = :etat",
 				ExpressionAttributeValues: {
 					":etat": "En attente"
 				},
@@ -34,14 +33,14 @@ router.get('/:log/:reservationId', function(req, res, next) {
           res.redirect('/');
       } else {
           console.log("Update succeeded.");
-          res.render('/');
+          res.redirect('/');
       }
 		});
 		}
 	}
 });
 
-router.post('/:log/:reservationId', function(req, res, next) {
+router.get('/:log/:reservationId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
 			res.redirect('/');
@@ -49,9 +48,10 @@ router.post('/:log/:reservationId', function(req, res, next) {
 		if ( sess.type != "Oenophile") {
 			res.redirect('/');
 		} else {
+			console.log("reservID"+req.params.reservationId);
 			var docClient = new AWS.DynamoDB.DocumentClient();
       var params = {
-        TableName : "Reservations",
+        TableName : "Vins",
         ProjectionExpression: "ID, Bouteille, Annee, Quantite",
           FilterExpression: "ReservationID = :reservationid",
           ExpressionAttributeValues: {

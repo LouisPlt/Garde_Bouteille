@@ -30,24 +30,17 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
-			var table = "Vins";
 
-			var paramsReservation{
-					TableName : "Reservations", "Pseudo",
-					ProjectionExpression :
+			var paramsReservation = {
+					TableName : "Reservations",
+					ProjectionExpression: "ID, Etat",
+					FilterExpression :"CaveID = :caveid",
+					ExpressionAttributeValues: {
+						":caveid": req.params.caveId
+					}
 			}
-
-			var paramsVin = {
-			    TableName : "Vins",
-				ProjectionExpression: "ID, Pseudo, Bouteille, Annee",
-			    FilterExpression: "CaveID = :caveId",
-			    ExpressionAttributeValues: {
-			         ":caveId": req.params.caveId
-			    }
-			};
-
 			console.log("Scanning vins table.");
-			docClient.scan(params, onScan);
+			docClient.scan(paramsReservation, onScan);
 
 			function onScan(err, data) {
 			    if (err) {
@@ -55,7 +48,6 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			        res.redirect('/');
 			    } else {
 			        console.log("Scan succeeded.");
-
 			        // continue scanning if we have more movies, because
 			        // scan can retrieve a maximum of 1MB of data
 			        if (typeof data.LastEvaluatedKey != "undefined") {
@@ -63,6 +55,30 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			            params.ExclusiveStartKey = data.LastEvaluatedKey;
 			            docClient.scan(params, onScan);
 			        }
+							console.log(data.Items);
+							var reponse_json = data.Items.map(function(reservation) {
+							var docClient = new AWS.DynamoDB.DocumentClient();
+
+							var paramsVin = {
+									TableName : "Vins",
+									ProjectionExpression: "ID, Bouteille, Quantite, Annee",
+									FilterExpression :"ReservationID = :reservationid",
+									ExpressionAttributeValues: {
+										":reservationid": reservation.ID
+									}
+							}
+
+								docClient.scan(paramsVin, function(err, vins){
+									if (err) {
+											console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+											res.redirect('/');
+									} else {
+										reponse_json.vins = vins.Items;
+									}
+								});
+								return reponse_json;
+				      });
+							console.log(reponse_json);
 			        res.render('macave', { sess: sess, data: data.Items });
 			    }
 			}
