@@ -60,7 +60,6 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			        }
 							var sempahore = data.Items.length;
 							data.Items.map(function(reservation) {
-								isPaused = true;
 								var response_json = reservation;
 								var docClient = new AWS.DynamoDB.DocumentClient();
 								var paramsVin = {

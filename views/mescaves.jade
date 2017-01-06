@@ -1,17 +1,15 @@
 extends layout
 block content
-	.container-fluid
+	.container.text-center
 		.box
 			.row
 				.col-lg-12
 					hr 
 					h3(style="text-align : center;") Mes Caves
 					hr
-				
 					each val in data
 						Label #{val.Formatted_address}
 						p
 							a(href='mescaves/' + val.ID) #{val.Caracteristiques}
 
 					button.btn.btn-default(type='button', onclick="location.href = 'addcave';") Ajouter une cave
-

@@ -1,13 +1,18 @@
 extends layout
 block content
-	.container-fluid
+	.container
 		.box
 			.row
-				.col-lg-12
+				.col-lg-12.text-center
+					hr 
+					h3(style="text-align : center;") Les reservations
+					hr
+					ul.list-group
 					each reservation in data
-						h3 Reservation de #{reservation.Pseudo}
+						li.list-group-item(style="background-color:#5F021F; color:white; border-radius: 10px;") Reservation de
+							b  #{reservation.Pseudo}
 						h4 Etat: #{reservation.Etat}
 						if reservation.vins != undefined
-							ul
+						ul.list-group
 								each vin in reservation.vins
-									li #{vin.Quantite} #{vin.Bouteille} de #{vin.Annee}
+									p - #{vin.Quantite} #{vin.Bouteille} de #{vin.Annee}

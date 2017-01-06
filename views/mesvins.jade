@@ -1,16 +1,34 @@
 extends layout
 block content
-		.container-fluid
-			.box
-				.row
-					.col-lg-12
-						hr
-						h3(style="text-align: center;") Mes Bouteilles
-						hr
-						if data != ""
-							each val in data
-								p 
-									a(href="/compte/#{sess.login}/mesvins/#{val.ID}") Bouteille : #{val.Bouteille}
-						else 
-							p Pas de bouteilles stockées
-						button.btn.btn-default(type='button', onclick="location.href = 'addvins';") Ajouter une cave
+	.container
+		.box
+			.row
+				.col-lg-12.text-center
+					hr 
+					h3(style="text-align : center;") Mes reservations
+					hr
+					each reservation in data
+						.panel.panel-default
+							.panel-heading(style="background-color:#5F021F; color:white;") Ma reservation chez
+									b  #{reservation.cave.Pseudo}
+							.panel-body
+								.col-lg-6.col-sm-12
+									h4 Etat: #{reservation.Etat}
+									if reservation.vins != undefined && reservation.vins.length != 0
+										h4 Lste des bouteilles
+										each vin in reservation.vins
+											p  #{vin.Quantite} #{vin.Bouteille} de #{vin.Annee}
+								.col-lg-6.col-sm-12
+									table
+										tr
+											td Adresse
+											td #{reservation.cave.Formatted_address}
+										tr
+											td Température
+											td #{reservation.cave.Temperature} °C
+										tr
+											td Hygrométrie
+											td #{reservation.cave.Hygrometrie} %
+										tr
+											td Prix par bouteille
+											td #{reservation.cave.Prix} €
