@@ -24,14 +24,14 @@ nav.navbar.navbar-default(role='navigation')
         if sess != undefined
           if sess.type == "Oenophile"
             li
-              a(href='/Compte/#{sess.login}/mesvins') Mes Vins
+              a(href='/compte/#{sess.login}/mesvins') Mes Vins
             li
               a(href='/profil') Mon Profil
             li
               a(href='/deconnexion') Déconnexion (#{sess.login})
           else if sess.type == "Caviste"
             li
-              a(href='/mescaves') Mes Caves
+              a(href="compte/#{sess.login}/mescaves") Mes Caves
             li
               a(href='/profil') Mon Profil
             li
