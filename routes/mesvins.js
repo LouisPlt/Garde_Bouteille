@@ -109,5 +109,4 @@ router.get('/:log/mesvins/:vinId', function(req, res, next) {
 	}
 });
 
-
 module.exports = router;

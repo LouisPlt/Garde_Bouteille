@@ -13,6 +13,9 @@ var inscription = require('./routes/inscription');
 var deconnexion = require('./routes/deconnexion');
 
 var compte = require('./routes/compte');
+
+var about = require('./routes/about');
+var contact = require('./routes/contact');
 var mescaves = require('./routes/mescaves');
 var macave = require('./routes/macave');
 var addcave = require('./routes/addcave');
@@ -45,6 +48,10 @@ app.use('/inscription', inscription);
 app.use('/deconnexion', deconnexion);
 
 app.use('/compte', compte);
+
+app.use('/about', about);
+app.use('/contact', contact);
+
 app.use('/compte', mescaves);
 app.use('/compte', macave);
 app.use('/compte', addcave);
@@ -52,7 +59,6 @@ app.use('/compte', mesvins);
 app.use('/addvins', addvins);
 app.use('/recherche', recherche);
 app.use('/profil', profil);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
