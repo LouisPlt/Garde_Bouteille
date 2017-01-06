@@ -24,35 +24,33 @@ var sess;
 router.get('/:log/mescaves/:caveId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
+	//if ( false ) {
 		res.redirect('/');
 	} else {
 		if ( sess.type != "Caviste") {
+		//if ( false) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
-			var table = "Vins";
-			var caveId = req.params.caveId;
+			var paramsReservation = {
+					TableName : "Reservations",
+					FilterExpression: "CaveID = :caveid AND NOT Etat = :etat",
+					ExpressionAttributeValues:{
+						":caveid" :  req.params.caveId,
+						":etat" : "Initié"
+					}
 
-			var params = {
-			    TableName : table,
-				ProjectionExpression: "ID, Pseudo, Bouteille, Annee",
-			    FilterExpression: "CaveID = :caveId",
-			    ExpressionAttributeValues: {
-			         ":caveId": caveId
-			    }
-			};
 
+			}
 			console.log("Scanning vins table.");
-			docClient.scan(params, onScan);
+			docClient.scan(paramsReservation, onScan);
 
 			function onScan(err, data) {
 			    if (err) {
 			        console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
 			        res.redirect('/');
 			    } else {
-			        // print all the movies
 			        console.log("Scan succeeded.");
-
 			        // continue scanning if we have more movies, because
 			        // scan can retrieve a maximum of 1MB of data
 			        if (typeof data.LastEvaluatedKey != "undefined") {
@@ -60,7 +58,42 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			            params.ExclusiveStartKey = data.LastEvaluatedKey;
 			            docClient.scan(params, onScan);
 			        }
-			        res.render('macave', { sess: sess, data: data.Items });
+							var sempahore = data.Items.length;
+							data.Items.map(function(reservation) {
+								isPaused = true;
+								var response_json = reservation;
+								var docClient = new AWS.DynamoDB.DocumentClient();
+								var paramsVin = {
+										TableName : "Vins",
+										ProjectionExpression: "ID, Bouteille, Quantite, Annee",
+										FilterExpression :"ReservationID = :reservationid",
+										ExpressionAttributeValues: {
+											":reservationid": reservation.ID
+										}
+								}
+								docClient.scan(paramsVin, function(err, vins){
+									if (err) {
+											console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+											res.redirect('/');
+									} else {
+										console.log("add vins: "+JSON.stringify(vins.Items));
+										response_json.vins = vins.Items;
+									}
+									sempahore--;
+								});
+								return response_json;
+
+				      });
+							waitForIt();
+							function waitForIt(){
+									console.log(sempahore);
+					        if (sempahore > 0) {
+					            setTimeout(function(){waitForIt()},100);
+					        } else {
+										console.log(JSON.stringify(data.Items));
+										res.render('macave', { sess: sess, data: data.Items });
+					        };
+					    }
 			    }
 			}
 		}

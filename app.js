@@ -23,6 +23,7 @@ var mesvins = require('./routes/mesvins');
 var addvins = require('./routes/addvins');
 var recherche = require('./routes/recherche');
 var profil = require('./routes/profil');
+var reservation = require('./routes/reservation')
 
 var app = express();
 require('dotenv').config();
@@ -56,9 +57,11 @@ app.use('/compte', mescaves);
 app.use('/compte', macave);
 app.use('/compte', addcave);
 app.use('/compte', mesvins);
+app.use('/compte', reservation);
 app.use('/addvins', addvins);
 app.use('/recherche', recherche);
 app.use('/profil', profil);
+app.use('/reservation', reservation);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

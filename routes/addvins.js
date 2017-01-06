@@ -8,8 +8,8 @@ AWS.config.loadFromPath('./config.json');
 
 var sess;
 
-/* GET home page. */
-router.get('/:log/:caveId', function(req, res, next) {
+/* new vin page. */
+router.get('/:log/:reservationId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
 			res.redirect('/');
@@ -18,22 +18,20 @@ router.get('/:log/:caveId', function(req, res, next) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
-			var table = "Caves";
-			var caveId = req.params.caveId;
+			console.log(req.params.reservationId);
 			var params = {
-			    TableName: table,
+			    TableName: "Reservations",
 			    Key:{
-			        "ID": caveId
+						"ID": req.params.reservationId
 			    }
 			};
-
 			docClient.get(params, function(err, data) {
 				if (err) {
 					console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
 					res.redirect('/');
 				} else {
 					console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-					res.render('addvins', { sess: sess , data: data.Item});
+					res.render('addvins', { sess: sess , reservationID: req.params.reservationId});
 				}
 			});
 		}
@@ -42,8 +40,9 @@ router.get('/:log/:caveId', function(req, res, next) {
 
 
 
-router.post('/:log/:caveId', function(req, res, next) {
+router.post('/:log/:reservationId', function(req, res, next) {
 	sess = req.session;
+	console.log(req.body);
 	if ( sess.login != req.params.log ) {
 		res.redirect('/');
 	} else {
@@ -51,33 +50,23 @@ router.post('/:log/:caveId', function(req, res, next) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
-			var table = "Vins";
 			var id = uuidV4();
-			var pseudo = sess.login;
-			var bouteille = req.body.bouteille;
-			var annee = req.body.annee;
-			var categorie = req.body.categorie;
-			var appellation = req.body.appellation;
-			var region = req.body.region;
-			var vigneron = req.body.vigneron;
-			var assurance = req.body.assurance;
-			var caracteristiques = req.body.caracteristiques;
-			var caveId = req.params.caveId;			
 
 			var paramsAdd = {
-			    TableName: table,
+			    TableName: "Vins",
 			    Item:{
 			    	"ID": id,
-			        "Pseudo": pseudo,
-			        "Bouteille": bouteille,
-			        "Annee": annee,
-			        "Categorie": categorie,
-			        "Appellation": appellation,
-			        "Region": region,
-			        "Vigneron": vigneron,
-			        "Assurance": assurance,
-			        "Caracteristiques": caracteristiques,
-			        "CaveID": caveId		        
+			      "Pseudo": sess.login,
+			      "Bouteille": req.body.bouteille,
+			      "Annee": req.body.annee,
+			      "Categorie": req.body.categorie,
+						"Quantite" : req.body.quantite,
+			      "Appellation": req.body.appellation,
+			      "Localite": req.body.localite,
+			      "Vigneron": req.body.vigneron,
+			      "Assurance": req.body.assurance,
+			      "Caracteristiques": req.body.caracteristiques,
+			      "ReservationID": req.params.reservationId
 			    }
 			};
 
@@ -88,7 +77,7 @@ router.post('/:log/:caveId', function(req, res, next) {
 					res.redirect('/');
 			    } else {
 			        console.log("Added item:", JSON.stringify(data, null, 2));
-					res.redirect('/compte/' + sess.login + '/mesvins');
+							res.redirect('/reservation/' + sess.login + '/'+req.params.reservationId);
 			    }
 			});
 		}
