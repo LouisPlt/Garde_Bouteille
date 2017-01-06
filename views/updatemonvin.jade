@@ -1,9 +1,9 @@
 extends layout
 block content
-  .container
-    .row
-      .box
-        .col-lg-12
+	.container
+		.row
+			.box
+				.col-lg-12
 					form.col-lg-4.col-lg-offset-4(method='post', name='addVinsForm', action="/compte/#{sess.login}/mesvins/#{vinId}")
 						.form-group
 							label Nom de la bouteille

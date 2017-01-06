@@ -1,27 +1,23 @@
 extends layout
 block content
-  .container
-    .row
-      .box
-        .col-lg-12
+	.container
+		.row
+			.box
+				.col-lg-12
 					if data != ""
-						script.
-							var number_of_bottles = 0;
 						each val in data
 							.row
-								p.col-md-6	 #{val.Quantite} #{val.Bouteille} de #{val.Annee} 
+								p.col-md-6	#{val.Quantite} #{val.Bouteille} de #{val.Annee} 
 								script.
 									number_of_bottles += #{val.Quantite};
 								a.col-md-3(href="/compte/#{sess.login}/mesvins/#{val.ID}") Editer
 								a.col-md-3(href='/') Supprimer
-						script.
-							document.write("<p><br>Total de "+number_of_bottles+" bouteilles.</p>")
 					else 
 						p Pas de bouteilles stockées
 					a.btn.btn-primary(href="/addvins/#{sess.login}/#{reservationId}") Ajouter une bouteille
 					br
 					br
-					form.col-md-12(style="text-align:center")(method='post', name='startReservation', action="/reservation/#{sess.login}/#{reservationId}")
-						button.btn.btn-primary(name="validate") Valider
-					
-					
+					form.col-md-12(style="text-align:center", method='post', name='startReservation', action="/reservation/#{sess.login}/#{reservationId}")
+							button.btn.btn-primary(name="validate") Valider
+						
+						
