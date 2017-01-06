@@ -18,6 +18,7 @@ router.post('/', function(req, res, next) {
 	sess = req.session;
 
 	var docClient = new AWS.DynamoDB.DocumentClient();
+
 	var table = "Users";
 	var pseudo = req.body.login;
 	var params = {
@@ -31,10 +32,12 @@ router.post('/', function(req, res, next) {
 		if (err) {
 			console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
 			res.render('connexion', {connected : false});
+
 		} else {
 			console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
 			if (isEmptyObject(data)) {							//Si le nom d'utilisateur n'existe pas
 				console.log("Nom d'utilisateur inexistant");
+
 				res.render('connexion', {connected : false});
 			} else {											//Si le nom d'utilisateur n'existe pas
 				if (req.body.password != data.Item.Password) {
@@ -45,6 +48,7 @@ router.post('/', function(req, res, next) {
 					sess.login = req.body.login;
 					sess.type = data.Item.Type;
 					res.redirect('/');
+
 				}
 			}
 		}
@@ -53,6 +57,7 @@ router.post('/', function(req, res, next) {
 });
 
 function isEmptyObject(obj) {
+
 	return !Object.keys(obj).length;
 }
 

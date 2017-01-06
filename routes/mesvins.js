@@ -146,5 +146,4 @@ router.post('/:log/mesvins/:vinId', function(req, res, next) {
 	}
 });
 
-
 module.exports = router;

@@ -1,87 +1,43 @@
-	doctype html
-html
-	head
-		title
-		meta(charset='utf-8')
-		link(rel='stylesheet', href='bootstrap/css/bootstrap.min.css')
-		link(rel='stylesheet', href='stylesheets/style.css')
-		script(type='text/javascript').
-			function validateForm() {
-				var email = document.forms["subscriptionForm"]["email"].value;
-				var login = document.forms["subscriptionForm"]["login"].value;
-				var password = document.forms["subscriptionForm"]["password"].value;
+extends layout
+block content
+	.container
+		.row(style="margin-right : 0")
+			.box
+				.col-lg-12
+					h3(style="text-align: center;") Inscrivez-vous en quelques secondes !
+					form.col-lg-4.col-lg-offset-4(method='post', name='subscriptionForm', onsubmit="return validateForm()")
+						.form-group
+							label Type
+							select.form-control(name='type', id='type', required="required")
+								option Caviste
+								option Oenophile
+						.form-group
+							label E-mail
+							input.form-control(type='email', placeholder='Password', name='email', id='email', required="required")
+						.form-group
+							label Pseudo
+							input.form-control(type='text', placeholder='Login', name='login', id='login', required="required")
+						.form-group
+							label Password
+							input.form-control(type='password', placeholder='Password', name='password', id='password', required="required")
+						.form-group
+							label Genre
+							select.form-control(name='gender', id='gender', required="required")
+								option Homme
+								option Femme
+						.form-group
+							label Prénom
+							input.form-control(type='text', placeholder='Prénom', name='firstname', id='firstname', required="required") 
+						.form-group
+							label Nom
+							input.form-control(type='text', placeholder='Nom', name='lastname', id='lastname', required="required") 
+						.form-group
+							label Date de naissance
+							input.form-control(type='date', name='birth', id='birth', required="required" placeholder="DD/MM/AAAA") 
+						.form-group
+							label Téléphone
+							input.form-control(type='phone', placeholder='Téléphone', name='phone', id='phone', required="required")
+						if field
+							p Veuillez remplir tout les champs
 
-				if (password == null || password == "") {
-					return false;
-				}
-				if (login == null || login == "") {
-					return false;
-				}
-				if (email == null || email == "") {
-					return false;
-				}
-
-			}
-	body
-		nav.navbar.navbar-default.navbar-fixed-top
-			.container-fluid
-				.navbar-header
-					a.navbar-brand(href='#')
-						img(alt='Brand', src='images/logo.png')
-					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
-						span.sr-only Toggle navigation
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
-				#bs-example-navbar-collapse-1.collapse.navbar-collapse
-					
-					input.btn.btn-default.navbar-right(type='button', value='Connexion', onclick="location.href='/connexion'", style='margin-left: 20px;margin-right: 20px;margin-top: 8px')
-					input.btn.btn-default.navbar-right(type='button', value="S'inscrire", onclick="location.href='/inscription'", style='margin-left: 20px;margin-top: 8px')
-
-					ul.nav.navbar-nav.navbar-right
-						li.active
-							a.nav-marging-item(href='/') Accueil
-						li
-							a.nav-marging-item(href='/') Contact
-
-		.row(style='margin-top: 100px')
-			form.col-lg-4.col-lg-offset-4(method='post', name='subscriptionForm', onsubmit="return validateForm()")
-				.form-group
-					label Type
-					select.form-control(name='type', id='type', required="required")
-						option Caviste
-						option Oenophile
-				.form-group
-					label E-mail
-					input.form-control(type='email', placeholder='Password', name='email', id='email', required="required")
-				.form-group
-					label Pseudo
-					input.form-control(type='text', placeholder='Login', name='login', id='login', required="required")
-					if pseudo
-						p Utilisateur déjà existant
-				.form-group
-					label Password
-					input.form-control(type='password', placeholder='Password', name='password', id='password', required="required")
-				.form-group
-					label Genre
-					select.form-control(name='gender', id='gender', required="required")
-						option Homme
-						option Femme
-				.form-group
-					label Prénom
-					input.form-control(type='text', placeholder='Prénom', name='firstname', id='firstname', required="required") 
-				.form-group
-					label Nom
-					input.form-control(type='text', placeholder='Nom', name='lastname', id='lastname', required="required") 
-				.form-group
-					label Date de naissance
-					input.form-control(type='date', name='birth', id='birth', required="required") 
-				.form-group
-					label Téléphone
-					input.form-control(type='phone', placeholder='Téléphone', name='phone', id='phone', required="required")
-				if field
-					p Veuillez remplir tout les champs
-
-				input.btn.btn-default(type='submit', value='Inscription')
-
-
+						input.btn.btn-default(type='submit', value='Inscription' style="margin-bottom : 25px")

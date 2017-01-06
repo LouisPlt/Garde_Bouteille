@@ -1,59 +1,46 @@
-div#sidebar
-  a.logo(href='/') 
-    img
-  ul
-    li.selected
-      span
-        a(href='/') Home
-    li
-      span
-        a(href='/') Our Wines
-    li
-      span
-        a(href='/') About
-    li 	
-      span
-        a(href='/') Contact
-  div.connect
-    b Rejoignez nous !
-    p Enregistrer vous pour proposer votre cave ou pour trouver une cave près de chez vous.
-    b
-      style(type='text/css').
-         a {
-              color:white;
-              font: bold;
-          }
-      a(href="/connexion") Connexion
-      br
-      a(href="/inscription") Inscription
-  div.contact
-    ul
-      li.address
-        span Address
-        ul
-          li 30 - 32 Avenue de la République
-        
-          li Villejuif
-
-          li France
-      li.contactInfo
-        span Info
-        ul
-          li Louis +336.06.06.06.06.06
-      li.mail
-        span e-mail
-        ul
+.brand Garde Bou'teille
+.address-bar 30-32 Avenue de la République | Villejuif 94067 | 867-5309
+// Navigation
+nav.navbar.navbar-default(role='navigation')
+  .container
+    // Brand and toggle get grouped for better mobile display
+    .navbar-header
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      // navbar-brand is hidden on larger screens, but visible when the menu is collapsed
+      a.navbar-brand(href='index.html') Garde Bou'teille
+    // Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li
+          a(href='/') Home
+        li
+          a(href='/about') About
+        li
+          a(href='/contact') Contact
+        if sess != undefined
+          if sess.type == "Oenophile"
+            li
+              a(href='/Compte/#{sess.login}/mesvins') Mes Vins
+            li
+              a(href='/profil') Mon Profil
+            li
+              a(href='/deconnexion') Déconnexion (#{sess.login})
+          else if sess.type == "Caviste"
+            li
+              a(href='/mescaves') Mes Caves
+            li
+              a(href='/profil') Mon Profil
+            li
+              a(href='/deconnexion') Déconnexion (#{sess.login})
+        else
           li
-            a(href='/') louis.pouillot@efrei.net
-  div.connect
-    b Suivez nous !
-    p Vous pouvez suivre toutes l'actualité du site sur les réseaux sociaux.
-    ul
-      li#facebook
-        a(href='/') Facebook
-      li#twitter
-        a(href='/') Twitter
-      li#googleplus
-        a(href='/') Googleplus
-      li#connectmail
-        a(href='/') Email
+            a(href='/inscription') Inscription 
+          li
+            a(href='/connexion') Connexion
+
+
+    // /.navbar-collapse
