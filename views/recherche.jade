@@ -47,7 +47,6 @@ html
 			.row(style='margin-top: 100px')
 				input#pac-input.controls(type='text', placeholder='Enter a location')
 				#map
-
 			.row
 				table(class='table table-bordered table-striped table-hover', id='storeTable')
 					tr
@@ -144,5 +143,4 @@ html
 					}
 
 					window.onload = initMap;
-
 				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=#{process.env.APIKEY}&signed_in=true&libraries=places')

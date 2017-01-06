@@ -46,7 +46,7 @@ html
 		.container-fluid
 			.row(style='margin-top: 100px')
 				each reservation in data
-					h3 Reservation de #{reservation.Pseudo} pour #{reservation.vins.length} bouteilles
+					h3 Reservation de #{reservation.Pseudo}
 					h4 Etat: #{reservation.Etat}
 					if reservation.vins != undefined
 						ul

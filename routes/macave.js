@@ -23,22 +23,24 @@ var sess;
 
 router.get('/:log/mescaves/:caveId', function(req, res, next) {
 	sess = req.session;
-	//if ( sess.login != req.params.log ) {
-	if ( false ) {
+	if ( sess.login != req.params.log ) {
+	//if ( false ) {
 		res.redirect('/');
 	} else {
-		//if ( sess.type != "Caviste") {
-		if ( false) {
+		if ( sess.type != "Caviste") {
+		//if ( false) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
 			var paramsReservation = {
 					TableName : "Reservations",
-					ProjectionExpression: "ID, Etat",
-					FilterExpression :"CaveID = :caveid",
-					ExpressionAttributeValues: {
-						":caveid": req.params.caveId
+					FilterExpression: "CaveID = :caveid AND NOT Etat = :etat",
+					ExpressionAttributeValues:{
+						":caveid" :  req.params.caveId,
+						":etat" : "Initié"
 					}
+
+
 			}
 			console.log("Scanning vins table.");
 			docClient.scan(paramsReservation, onScan);
