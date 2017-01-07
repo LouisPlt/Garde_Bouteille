@@ -15,29 +15,36 @@ block content
 							.panel-heading(style="background-color:#5F021F; color:white;") Ma reservation chez
 									b  #{reservation.cave.Pseudo}
 							.panel-body
-								.col-lg-6.col-sm-12
-									h4 #{reservation.Etat}
-									if reservation.vins != undefined && reservation.vins.length != 0
-										h4 Lste des bouteilles
-										each vin in reservation.vins
-											p  #{vin.Quantite} #{vin.Bouteille} de #{vin.Annee}
-								.col-lg-6.col-sm-12
-									table
-										tr
-											td Adresse
-											td #{reservation.cave.Formatted_address}
-										tr
-											td Température
-											td #{reservation.cave.Temperature} °C
-										tr
-											td Hygrométrie
-											td #{reservation.cave.Hygrometrie} %
-										tr
-											td Prix par bouteille
-											td #{reservation.cave.Prix} €
+								.row 
+									.col-lg-6.col-sm-12
+										h4 #{reservation.Etat}
+										if reservation.vins != undefined && reservation.vins.length != 0
+											h4 Lste des bouteilles
+											each vin in reservation.vins
+												p  #{vin.Quantite} #{vin.Bouteille} de #{vin.Annee}
+									.col-lg-6.col-sm-12
+										table
+											tr
+												td Adresse
+												td #{reservation.cave.Formatted_address}
+											tr
+												td Température
+												td #{reservation.cave.Temperature} °C
+											tr
+												td Hygrométrie
+												td #{reservation.cave.Hygrometrie} %
+											tr
+												td Prix par bouteille
+												td #{reservation.cave.Prix} €
 							if reservation.Etat == "Initié"
-								a.btn.btn-default.marg-t-20.marg-b-20(href="/reservation/#{sess.login}/#{reservation.ID}") Modifier cette reservation
+								.row.marg-b-20
+									.col-md-6
+										a.btn.btn-default(href="/reservation/#{sess.login}/#{reservation.ID}") Modifier cette reservation
+									.col-md-6
+										form(action="/reservation/#{sess.login}/#{reservation.ID}/supprimer" method="post")
+											button.btn.btn-default(name="supprimer" value="supprimer") Annuler cette reservation
+								small Vous devez valider cette reservation pour que le propriétaire puisse l'accepter
 							else if reservation.Etat == "En attente"
-								small Cette reservation a été soumise pour approbation au propriétaire
+								small Cette reservation a été soumise au propriétaire pour approbation 
 							
 											

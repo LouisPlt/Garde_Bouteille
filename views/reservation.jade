@@ -13,11 +13,14 @@ block content
 								p.col-md-6	#{val.Quantite} #{val.Bouteille} de #{val.Annee} 
 								script.
 									number_of_bottles += #{val.Quantite};
-								a.col-md-3.red(href="/compte/#{sess.login}/mesvins/#{val.ID}") Editer
-								a.col-md-3.red(href='/') Supprimer
+								.col-md-3
+									a.btn.btn-default(href="/compte/#{sess.login}/mesvins/#{val.ID}") Editer
+								.col-md-3
+									form(action="/compte/#{sess.login}/mesvins/#{val.ID}/supprimer" method="post")
+										button.btn.btn-default(name="supprimer" value="supprimer") Supprimer
 					else 
 						p Pas de bouteilles stockées
-					a.btn.btn-default(href="/addvins/#{sess.login}/#{reservationId}") Ajouter une bouteille
+					a.btn.btn-default.marg-t-20(href="/addvins/#{sess.login}/#{reservationId}") Ajouter une bouteille
 					hr(style="margin-top:30px;")
 					form.col-md-12(style="text-align:center", method='post', name='startReservation', action="/reservation/#{sess.login}/#{reservationId}")
 							button.btn.btn-default(name="validate") Valider
