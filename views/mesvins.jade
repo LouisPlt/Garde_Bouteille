@@ -7,13 +7,16 @@ block content
 					hr 
 					h3(style="text-align : center;") Mes reservations
 					hr
+					a.btn.btn-default(href="/recherche") Trouver une cave
+					br
+					br
 					each reservation in data
 						.panel.panel-default
 							.panel-heading(style="background-color:#5F021F; color:white;") Ma reservation chez
 									b  #{reservation.cave.Pseudo}
 							.panel-body
 								.col-lg-6.col-sm-12
-									h4 Etat: #{reservation.Etat}
+									h4 #{reservation.Etat}
 									if reservation.vins != undefined && reservation.vins.length != 0
 										h4 Lste des bouteilles
 										each vin in reservation.vins
@@ -32,3 +35,9 @@ block content
 										tr
 											td Prix par bouteille
 											td #{reservation.cave.Prix} €
+							if reservation.Etat == "Initié"
+								a.btn.btn-default.marg-t-20.marg-b-20(href="/reservation/#{sess.login}/#{reservation.ID}") Modifier cette reservation
+							else if reservation.Etat == "En attente"
+								small Cette reservation a été soumise pour approbation au propriétaire
+							
+											

@@ -3,21 +3,23 @@ block content
 	.container
 		.row
 			.box
-				.col-lg-12
+				.col-lg-12.text-center
+					hr
+					h3 Ajouter vos bouteilles
+					hr
 					if data != ""
 						each val in data
 							.row
 								p.col-md-6	#{val.Quantite} #{val.Bouteille} de #{val.Annee} 
 								script.
 									number_of_bottles += #{val.Quantite};
-								a.col-md-3(href="/compte/#{sess.login}/mesvins/#{val.ID}") Editer
-								a.col-md-3(href='/') Supprimer
+								a.col-md-3.red(href="/compte/#{sess.login}/mesvins/#{val.ID}") Editer
+								a.col-md-3.red(href='/') Supprimer
 					else 
 						p Pas de bouteilles stockées
-					a.btn.btn-primary(href="/addvins/#{sess.login}/#{reservationId}") Ajouter une bouteille
-					br
-					br
+					a.btn.btn-default(href="/addvins/#{sess.login}/#{reservationId}") Ajouter une bouteille
+					hr(style="margin-top:30px;")
 					form.col-md-12(style="text-align:center", method='post', name='startReservation', action="/reservation/#{sess.login}/#{reservationId}")
-							button.btn.btn-primary(name="validate") Valider
+							button.btn.btn-default(name="validate") Valider
 						
 						

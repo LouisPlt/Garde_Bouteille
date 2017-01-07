@@ -123,9 +123,9 @@ router.get('/:log/mesvins/:vinId', function(req, res, next) {
 					res.redirect('/');
 				} else {
 					console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-					if (data.Item.Pseudo != sess.login)
-					res.redirect('/');
-					else {
+					if (!data.Item ||  data.Item.Pseudo != sess.login){
+						res.redirect('/');
+					}else {
 						res.render('updatemonvin',{ sess: sess, data: data.Item, vinId: data.Item.ID});
 					}
 				}

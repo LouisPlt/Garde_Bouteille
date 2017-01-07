@@ -79,11 +79,13 @@ block content
 								    map: map
 								});
 								google.maps.event.addListener(marker, 'click', (function(marker, i) {
-									data = {};		 
-									data.session = "#{sess}";	
-									$.post("reservation/#{sess.login}/cave/"+caves_list[i].ID, data, function(response){		 							
-										document.location.href = response;
-										});
+									return function() {
+										data = {};		 
+										data.session = "#{sess}";	
+										$.post("reservation/#{sess.login}/cave/"+caves_list[i].ID, data, function(response){		 							
+											document.location.href = response;
+											});
+										}
 									})(marker, i));
 
 
