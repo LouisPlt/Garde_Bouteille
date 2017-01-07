@@ -40,6 +40,34 @@ router.post('/:log/:reservationId', function(req, res, next) {
 	}
 });
 
+router.post('/:log/:reservationId/supprimer', function(req, res, next) {
+	sess = req.session;
+	if ( sess.login != req.params.log ) {
+			res.redirect('/');
+	} else {
+		if ( sess.type != "Oenophile") {
+			res.redirect('/');
+		} else{
+			var docClient = new AWS.DynamoDB.DocumentClient();
+			var params = {
+				TableName : "Reservations",
+				Key:{
+					"ID": req.params.reservationId
+				}
+			}
+			docClient.delete(params, function(err, data){
+				if(err){
+					console.log("Impossible de supprimer cette Reservation");
+					res.redirect('/');
+				} else {
+					res.redirect("/compte/"+sess.login+"/mesvins");
+				}
+			});
+		}
+	}
+});
+
+
 router.get('/:log/:reservationId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {

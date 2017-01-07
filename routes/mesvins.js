@@ -134,6 +134,43 @@ router.get('/:log/mesvins/:vinId', function(req, res, next) {
 	}
 });
 
+router.post('/:log/mesvins/:vinId/supprimer', function(req, res, next) {
+	sess = req.session;
+	if ( sess.login != req.params.log ) {
+		res.redirect('/');
+	} else {
+		if ( sess.type != "Oenophile") {
+			res.redirect('/');
+		} else {
+			var docClient = new AWS.DynamoDB.DocumentClient();
+			var params= {
+				TableName : "Vins",
+				Key:{
+					"ID": req.params.vinId
+				}
+			}
+			docClient.get(params, function(err, data){
+				if(err){
+					console.log("Impossible de supprimer ce Vin")
+					res.redirect('/');
+				} else {
+					var reservationId = data.Item.ReservationID;
+					docClient.delete(params, function(err, data){
+						if(err){
+							console.log("Impossible de supprimer ce Vin")
+							res.redirect('/');
+						} else {
+							console.log("Vin supprimé:" +JSON.stringify(data));
+							res.redirect("/reservation/"+sess.login+"/"+reservationId);
+						}
+					});
+				}
+			});
+		}
+	}
+});
+
+
 router.post('/:log/mesvins/:vinId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
