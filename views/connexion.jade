@@ -1,0 +1,27 @@
+extends layout
+block content
+	.container
+		.row(style='margin-right : 0')
+			.box
+				.col-lg-12
+					hr
+					h3(style="text-align: center;")  Connectez-vous
+					hr
+					form.col-lg-4.col-lg-offset-4(method='post', name='connectionForm', onsubmit="return validateForm()")
+						.form-group
+							label Login
+							if login != undefined
+								input.form-control(type='text', name='login', id='login', value='#{login}')
+							else if compte == "inexistant"
+									input.form-control(type='text', placeholder='Login', name='login', id='login')
+									p Compte inexistant
+								else 
+									input.form-control(type='text', placeholder='Login', name='login', id='login')
+						.form-group
+							label Password
+							input.form-control(type='password', placeholder='Password', name='password', id='password')
+							if login != undefined
+								p Mot de passe eronné
+						input.btn.btn-default(type='submit', value='Connexion' style='margin-bottom: 45px')
+
+						input(type='hidden', name='previousLogin', value='#{login}')

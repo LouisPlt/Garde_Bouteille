@@ -1,0 +1,67 @@
+extends layout
+block content
+	.container-fluid
+		.box
+			.row()
+				.col-lg-12
+				hr
+				h3(style="text-align: center") Ajouter une cave
+				hr
+				form.col-lg-4.col-lg-offset-4(enctype='multipart/form-data', method='post', name='addCaveForm', )
+					.form-group
+						#locationField
+							Label Adresse
+							input.form-control#autocomplete(placeholder='Enter your address', type='text')
+						input(type='hidden', name='lat', id='lat')
+						input(type='hidden', name='lng', id='lng')
+						input(type='hidden', name='formatted_address', id='formatted_address')
+					.form-group
+						label Catégorie 
+						select.form-control(name='categorie ', id='categorie')
+							option Électrique
+							option Enterrée
+					.form-group
+						label Capacité 
+						input.form-control(type='number', placeholder='Capacité', name='capacite', id='capacite')
+					.form-group
+						label Température °C
+						input.form-control(type='number', placeholder='Température', name='temperature', id='temperature')
+					.form-group
+						label Hygrométrie
+						input.form-control(placeholder='Hygrométrie', name='hygrometry', id='hygrometry')
+					.form-group
+						label Prix 
+						input.form-control(type='number', placeholder='Prix', name='prix', id='prix')
+					.form-group
+						label Caractéristiques
+						textarea.form-control(cols='40', rows='5', placeholder='Caractéristiques', name='caracteristiques', id='caracteristiques')
+					.form-group
+						label Photo cave
+						input.form-control(type='file', name='photocave', id='photocave')
+					//- if data.PhotoCave != false
+						img(alt='photocave', src='/uploads/caves/' + sess.login + ".jpg")
+					input.btn.btn-default(type='submit', value='Ajouter')
+				script.
+					var autocomplete;
+					var formatted_address;
+
+					function initAutocomplete() {
+					  // Create the autocomplete object, restricting the search to geographical location types.
+					  autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')), {types: ['geocode']});
+					  autocomplete.addListener('place_changed', getLatLng);
+					}
+					function getLatLng() {
+					  // Get the place details from the autocomplete object.
+						var place = autocomplete.getPlace();
+
+						var lat = place.geometry.location.lat();
+						var lng = place.geometry.location.lng();
+						formatted_address =  place.formatted_address;
+
+						document.forms["addCaveForm"]["lat"].value = lat;
+						document.forms["addCaveForm"]["lng"].value = lng;
+						document.forms["addCaveForm"]["formatted_address"].value = formatted_address;
+						console.log("formatted_address : " + formatted_address);
+					}
+				
+				script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=#{process.env.APIKEY}&signed_in=true&libraries=places&callback=initAutocomplete')

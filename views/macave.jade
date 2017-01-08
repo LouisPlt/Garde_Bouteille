@@ -1,0 +1,18 @@
+extends layout
+block content
+	.container
+		.box
+			.row
+				.col-lg-12.text-center
+					hr 
+					h3(style="text-align : center;") Les reservations
+					hr
+					ul.list-group
+					each reservation in data
+						li.list-group-item(style="background-color:#5F021F; color:white; border-radius: 10px;") Reservation de
+							b  #{reservation.Pseudo}
+						h4 Etat: #{reservation.Etat}
+						if reservation.vins != undefined
+						ul.list-group
+								each vin in reservation.vins
+									p - #{vin.Quantite} #{vin.Bouteille} de #{vin.Annee}

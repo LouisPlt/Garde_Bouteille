@@ -1,3 +1,4 @@
+
 var express = require('express');
 var session = require('express-session');
 var router = express.Router();
@@ -9,9 +10,9 @@ router.get('/', function(req, res, next) {
     sess = req.session;
     console.log("sess.login : " + sess.login);
     if (sess.type == undefined)
-        res.render('');
+        res.render('about');
     else
-        res.render('', { sess: sess });
+        res.render('about', { sess: sess });
 });
 
 module.exports = router;

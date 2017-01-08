@@ -1,0 +1,38 @@
+extends layout
+block content
+	.container-fluid
+		.box
+			.row()
+				.col-lg-12
+					hr 
+					h3(style="text-align : center;") Mes Informations
+					hr
+					form.col-lg-4.col-lg-offset-4(method='post', name='compteForm')
+						.form-group
+							label Genre
+							select.form-control(name='gender', id='gender')
+								if data.Item.Gender == "Femme"
+									option Homme
+									option(selected='selected') Femme
+								else
+									option(selected='selected')  Homme
+									option Femme
+						.form-group
+							label Prénom
+							input.form-control(type='text', placeholder='Prénom', name='firstname', id='firstname', value='#{data.Item.Firstname}') 
+						.form-group
+							label Nom
+							input.form-control(type='text', placeholder='Nom', name='lastname', id='lastname', value='#{data.Item.Lastname}') 
+						.form-group
+							label Date de naissance
+							input.form-control(type='date', name='birth', id='birth', value='#{data.Item.Birth}') 
+						.form-group
+							label E-mail
+							input.form-control(type='email', placeholder='E-mail', name='email', id='email', value='#{data.Item.Email}') 
+						.form-group
+							label Téléphone
+							input.form-control(type='phone', placeholder='Téléphone', name='phone', id='phone', value='#{data.Item.Phone}')
+						if check
+							p Profil mis à jour
+						input.btn.btn-default(type='submit', value='Enregistrer')
+
