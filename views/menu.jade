@@ -24,16 +24,16 @@ nav.navbar.navbar-default(role='navigation')
             li
               a(href='/compte/#{sess.login}/mesvins') Mes Reservations
             li
-              a(href='/compte/#{sess.login}') Mon Profil
+              a(href='/compte/#{sess.login}') #{sess.login}
             li
               a(href='/deconnexion') Déconnexion
           else if sess.type == "Caviste"
             li
               a(href="/compte/#{sess.login}/mescaves") Mes Caves
             li
-              a(href='/compte/#{sess.login}') Mon Profil
+              a(href='/compte/#{sess.login}') #{sess.login}
             li
-              a(href='/deconnexion') Déconnexion (#{sess.login})
+              a(href='/deconnexion') Déconnexion 
         else
           li
             a(href='/inscription') Inscription 
