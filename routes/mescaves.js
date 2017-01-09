@@ -9,7 +9,6 @@ AWS.config.loadFromPath('./config.json');
 var sess;
 
 
-/* GET home page. */
 router.get('/:log/mescaves', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
@@ -21,14 +20,6 @@ router.get('/:log/mescaves', function(req, res, next) {
 			var docClient = new AWS.DynamoDB.DocumentClient();
 			var table = "Caves";
 			var pseudo = sess.login;
-
-			// var paramsGet = {
-			//     TableName: table,
-			//     Key:{
-			//         "Pseudo": pseudo
-			//     }
-			// };
-
 			var params = {
 			    TableName : table,
 				ProjectionExpression: "ID, Pseudo, Caracteristiques, Formatted_address, Lat, Lng",
@@ -47,9 +38,6 @@ router.get('/:log/mescaves', function(req, res, next) {
 			        res.redirect('/');
 			    } else {
 			        console.log("Scan succeeded.");
-
-			        // continue scanning if we have more movies, because
-			        // scan can retrieve a maximum of 1MB of data
 			        if (typeof data.LastEvaluatedKey != "undefined") {
 			            console.log("Scanning for more...");
 			            params.ExclusiveStartKey = data.LastEvaluatedKey;

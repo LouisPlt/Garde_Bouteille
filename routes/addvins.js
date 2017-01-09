@@ -8,7 +8,6 @@ AWS.config.loadFromPath('./config.json');
 
 var sess;
 
-/* new vin page. */
 router.get('/:log/:reservationId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {

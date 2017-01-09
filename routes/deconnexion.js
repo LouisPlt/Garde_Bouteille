@@ -4,7 +4,6 @@ var router = express.Router();
 
 var sess;
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
 	req.session.destroy(function(err) {
 	if(err) {

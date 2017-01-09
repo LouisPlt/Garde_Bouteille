@@ -7,15 +7,12 @@ AWS.config.loadFromPath('./config.json');
 
 var sess;
 
-/* GET home page. */
 router.get('/:log/mesvins', function(req, res, next) {
 	sess = req.session;
-	//if ( sess.login != req.params.log ) {
-	if ( false ) {
+	if ( sess.login != req.params.log ) {
 		res.redirect('/');
 	} else {
-		//if ( sess.type != "Oenophile") {
-		if ( false) {
+		if ( sess.type != "Oenophile") {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
@@ -35,8 +32,6 @@ router.get('/:log/mesvins', function(req, res, next) {
 					res.redirect('/');
 				} else {
 					console.log("Scan succeeded.");
-					// continue scanning if we have more movies, because
-					// scan can retrieve a maximum of 1MB of data
 					if (typeof data.LastEvaluatedKey != "undefined") {
 						console.log("Scanning for more...");
 						params.ExclusiveStartKey = data.LastEvaluatedKey;
@@ -46,8 +41,6 @@ router.get('/:log/mesvins', function(req, res, next) {
 					data.Items.map(function(reservation) {
 						var response_json = reservation;
 						var docClient = new AWS.DynamoDB.DocumentClient();
-
-						/*Recuperation de la cave lié a la reservation*/
 						var paramsCave = {
 							TableName : "Caves",
 							Key : {
@@ -60,8 +53,6 @@ router.get('/:log/mesvins', function(req, res, next) {
 								res.render('/', {connected : true});
 							} else {
 								response_json.cave = data.Item;
-
-								/*Recuperation des vins pour la reservation*/
 								var paramsVin = {
 									TableName : "Vins",
 									ProjectionExpression: "ID, Bouteille, Quantite, Annee",
@@ -206,13 +197,13 @@ router.post('/:log/mesvins/:vinId', function(req, res, next) {
 				} else {
 					console.log("GetItem updated:", JSON.stringify(data, null, 2));
 
-					var params = {											//On initialise l'item recherché dans la database
+					var params = {
 					TableName: "Vins",
 					Key:{
 						"ID": req.params.vinId
 					}
 				};
-				docClient.get(params, function(err, data) {				//On récupère les donnée de la database				//REFAIRE !!!!!!!!!!!!!!
+				docClient.get(params, function(err, data) {			
 					if (err) {
 						console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
 						res.redirect('/');

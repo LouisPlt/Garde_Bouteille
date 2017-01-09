@@ -6,7 +6,6 @@ var router = express.Router();
 AWS.config.loadFromPath('./config.json');
 
 var sess;
-/* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render('inscription');
 });

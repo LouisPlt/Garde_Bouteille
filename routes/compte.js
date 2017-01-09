@@ -54,7 +54,7 @@ router.post('/:log', function(req, res, next) {
 		    },
 		    UpdateExpression:
 		        "SET Gender = :gender, Firstname = :firstname, Lastname = :lastname, Birth = :birth, Email = :email, Phone = :phone",
-		    ExpressionAttributeValues: { 
+		    ExpressionAttributeValues: {
 		    	":gender": req.body.gender,
 		        ":firstname": req.body.firstname,
 		        ":lastname": req.body.lastname,
@@ -76,14 +76,14 @@ router.post('/:log', function(req, res, next) {
 				var table = "Users";
 				var pseudo = sess.login;
 
-				var params = {											//On initialise l'item recherché dans la database
+				var params = {
 				    TableName: table,
 				    Key:{
 				        "Pseudo": pseudo
 				    }
 				};
 
-				docClient.get(params, function(err, data) {				//On récupère les donnée de la database				//REFAIRE !!!!!!!!!!!!!!
+				docClient.get(params, function(err, data) {				
 					if (err) {
 						console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
 						res.redirect('/');

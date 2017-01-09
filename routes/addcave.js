@@ -20,7 +20,6 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-/* GET home page. */
 router.get('/:log/addcave', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
@@ -72,7 +71,7 @@ router.post('/:log/addcave', upload.single('photocave'), function(req, res, next
 						break;
 				}
 
-			
+
 			console.log("Adding a new item...");
 
 			var paramsAdd = {
