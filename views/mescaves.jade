@@ -8,8 +8,10 @@ block content
 					h3(style="text-align : center;") Mes Caves
 					hr
 					each val in data
-						Label #{val.Formatted_address}
-						p
-							a(href='mescaves/' + val.ID) #{val.Caracteristiques}
+							Label 
+								a(href='mescaves/' + val.ID) #{val.Formatted_address}
+							p	Capacité: #{val.Capacite} bouteilles
+							br
+								
 
 					button.btn.btn-default(type='button', onclick="location.href = 'addcave';") Ajouter une cave

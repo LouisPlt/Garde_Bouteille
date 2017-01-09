@@ -22,7 +22,7 @@ router.get('/:log/mescaves', function(req, res, next) {
 			var pseudo = sess.login;
 			var params = {
 			    TableName : table,
-				ProjectionExpression: "ID, Pseudo, Caracteristiques, Formatted_address, Lat, Lng",
+				ProjectionExpression: "ID, Pseudo, Caracteristiques, Formatted_address, Lat, Lng, Capacite",
 			    FilterExpression: "Pseudo = :pseudo",
 			    ExpressionAttributeValues: {
 			         ":pseudo": pseudo
