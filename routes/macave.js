@@ -8,27 +8,12 @@ AWS.config.loadFromPath('./config.json');
 
 var sess;
 
-// var storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'uploads/caves')
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, sess.login)
-//   }
-// });
-
-// var upload = multer({ storage: storage });
-
-
-
 router.get('/:log/mescaves/:caveId', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login != req.params.log ) {
-	//if ( false ) {
 		res.redirect('/');
 	} else {
 		if ( sess.type != "Caviste") {
-		//if ( false) {
 			res.redirect('/');
 		} else {
 			var docClient = new AWS.DynamoDB.DocumentClient();
@@ -51,8 +36,7 @@ router.get('/:log/mescaves/:caveId', function(req, res, next) {
 			        res.redirect('/');
 			    } else {
 			        console.log("Scan succeeded.");
-			        // continue scanning if we have more movies, because
-			        // scan can retrieve a maximum of 1MB of data
+			      
 			        if (typeof data.LastEvaluatedKey != "undefined") {
 			            console.log("Scanning for more...");
 			            params.ExclusiveStartKey = data.LastEvaluatedKey;

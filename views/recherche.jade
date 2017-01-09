@@ -10,19 +10,6 @@ block content
 					br
 					input#pac-input.controls(type='text', placeholder='Enter a location')
 					#map
-		.row
-			.box
-				.col-lg-12
-					table(class='table table-bordered table-striped table-hover', id='storeTable')
-						tr
-							th Caviste
-							th Adresse
-							th Caracteristiques
-						each val in caves.Items
-							tr#test(data-content='Popover with data-trigger', rel='popover', data-placement='top', data-original-title='Title', data-trigger='hover')
-								th #{val.Pseudo}
-								th #{val.Formatted_address}
-								th #{val.Caracteristiques}
 
 					script.
 						function initMap() {
@@ -64,14 +51,7 @@ block content
 
 						function addMarker(map) {
 							var caves_list = !{JSON.stringify(caves.Items)};
-
-							//-			Change color marker
-							//- var pinColor = "AFAE8B";
-							//- var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
-							//- 	new google.maps.Size(21, 34),
-							//- 	new google.maps.Point(0,0),
-							//- 	new google.maps.Point(10, 34));
-							
+							var infowindowTab = [];
 							for ( var i = 0 ; i < caves_list.length ; i++) {
 								var myLatLng = {lat: Number(caves_list[i].Lat), lng: Number(caves_list[i].Lng)};
 								var marker = new google.maps.Marker({
@@ -88,18 +68,19 @@ block content
 										}
 									})(marker, i));
 
-
-								var infowindow = new google.maps.InfoWindow({
-									content: caves_list[i].Formatted_address
-								});
+								console.log(caves_list[i]);
+								infowindowTab.push(new google.maps.InfoWindow({
+									content: "<p>"+caves_list[i].Formatted_address+"<br>Prix mensuel: "+caves_list[i].Prix+" €/bouteille</p>"
+									})
+								);
 								google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
 									return function() {
-										infowindow.open(map, this);
+										infowindowTab[i].open(map, this);
 									}
 								})(marker, i));
 								google.maps.event.addListener(marker, 'mouseout', (function(marker, i) {
 									return function() {
-										infowindow.close();
+										infowindowTab[i].close();
 									}
 								})(marker, i));
 							}

@@ -7,7 +7,6 @@ AWS.config.loadFromPath('./config.json');
 
 var sess;
 
-/* GET home page. */
 router.get('/:log', function(req, res, next) {
 	sess = req.session;
 	if ( sess.login == undefined ) {
