@@ -19,7 +19,7 @@ block content
 									.col-lg-6.col-sm-12
 										h4 #{reservation.Etat}
 										if reservation.vins != undefined && reservation.vins.length != 0
-											h4 Lste des bouteilles
+											h4 Liste des bouteilles
 											each vin in reservation.vins
 												p  #{vin.Quantite} #{vin.Bouteille} de #{vin.Annee}
 									.col-lg-6.col-sm-12
